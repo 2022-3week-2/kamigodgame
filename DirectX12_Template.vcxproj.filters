@@ -234,8 +234,8 @@
     <ClCompile Include="SrcApplication\Scene\SingleCamTestScene.cpp">
       <Filter>Application\ソースファイル\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="SrcEngine\Math\Easing.cpp">
-      <Filter>Engine\ソースファイル\Math</Filter>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>Application\ソースファイル\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -362,8 +362,8 @@
     <ClInclude Include="SrcApplication\Scene\SingleCamTestScene.h">
       <Filter>Application\ヘッダーファイル\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="SrcEngine\Math\Easing.h">
-      <Filter>Engine\ヘッダーファイル\Math</Filter>
+    <ClInclude Include="GameScene.h">
+      <Filter>Application\ヘッダーファイル\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
