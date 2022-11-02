@@ -177,6 +177,7 @@
     <ClCompile Include="SrcEngine\Light\DirectionalLight.cpp" />
     <ClCompile Include="SrcEngine\Light\Light.cpp" />
     <ClCompile Include="SrcEngine\Light\PointLight.cpp" />
+    <ClCompile Include="SrcEngine\Math\Easing.cpp" />
     <ClCompile Include="SrcEngine\Math\Matrix.cpp" />
     <ClCompile Include="SrcEngine\Math\Vec2.cpp" />
     <ClCompile Include="SrcEngine\Math\Vec3.cpp" />
@@ -220,6 +221,7 @@
     <ClInclude Include="SrcEngine\Light\DirectionalLight.h" />
     <ClInclude Include="SrcEngine\Light\Light.h" />
     <ClInclude Include="SrcEngine\Light\PointLight.h" />
+    <ClInclude Include="SrcEngine\Math\Easing.h" />
     <ClInclude Include="SrcEngine\Math\Float2.h" />
     <ClInclude Include="SrcEngine\Math\Float3.h" />
     <ClInclude Include="SrcEngine\Math\Float4.h" />
