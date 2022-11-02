@@ -11,16 +11,20 @@ void GameScene::Init()
 
 	mCube = Model("cube");
 	mSky = Model("skydome");
+	mRegularSurface_20 = Model("20Surface");
 
 	obj.model = &mCube;
 	sky.model = &mSky;
+	boss.model = &mRegularSurface_20;
 }
 
 void GameScene::Update()
 {
 	camera.UpdateMatrix();
+
 	obj.UpdateMatrix();
 	sky.UpdateMatrix();
+	boss.UpdateMatrix();
 }
 
 void GameScene::DrawBack()
@@ -31,8 +35,9 @@ void GameScene::Draw3D()
 {
 	Camera::Set(camera);
 
-	obj.Draw();
+	//obj.Draw();
 	sky.Draw();
+	boss.Draw();
 }
 
 void GameScene::DrawSprite()

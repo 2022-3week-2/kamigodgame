@@ -20,6 +20,9 @@ private:
     Object3D sky;
     Model mSky;
 
+    Object3D boss;
+    Model mRegularSurface_20;
+
     Camera camera;
 };
 
