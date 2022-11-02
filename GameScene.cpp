@@ -16,6 +16,8 @@ void GameScene::Init()
 	obj.model = &mCube;
 	sky.model = &mSky;
 	boss.model = &mRegularSurface_20;
+
+	whiteTex = SpTextureManager::LoadTexture("Resources/white.png", "white");
 }
 
 void GameScene::Update()
@@ -37,7 +39,10 @@ void GameScene::Draw3D()
 
 	//obj.Draw();
 	sky.Draw();
-	boss.Draw();
+
+	boss.Draw("white");
+	
+	
 }
 
 void GameScene::DrawSprite()

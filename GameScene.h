@@ -23,6 +23,8 @@ private:
     Object3D boss;
     Model mRegularSurface_20;
 
+    TextureKey whiteTex;
+
     Camera camera;
 };
 
