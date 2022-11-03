@@ -21,6 +21,14 @@ struct Float3
 
 		return *this;
 	};
+	Float3& operator -=(const Float3& other)
+	{
+		this->x -= other.x;
+		this->y -= other.y;
+		this->z -= other.z;
+
+		return *this;
+	};
 
 	operator Vec3() const { return Vec3(x, y, z); }
 
