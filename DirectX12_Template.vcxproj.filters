@@ -246,6 +246,9 @@
     <ClCompile Include="SrcApplication\Bullet.cpp">
       <Filter>Application\ソースファイル</Filter>
     </ClCompile>
+    <ClCompile Include="SrcEngine\DirectX\RootSignatureManager.cpp">
+      <Filter>Engine\ソースファイル\DirectX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SrcEngine\Others\Essentials.h">
@@ -382,6 +385,9 @@
     </ClInclude>
     <ClInclude Include="SrcApplication\Bullet.h">
       <Filter>Application\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SrcEngine\DirectX\RootSignatureManager.h">
+      <Filter>Engine\ヘッダーファイル\DirectX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

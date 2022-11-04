@@ -171,6 +171,7 @@
     <ClCompile Include="SrcEngine\Collider\SphereCollider.cpp" />
     <ClCompile Include="SrcEngine\DirectX\GPipeline.cpp" />
     <ClCompile Include="SrcEngine\DirectX\GPipelineManager.cpp" />
+    <ClCompile Include="SrcEngine\DirectX\RootSignatureManager.cpp" />
     <ClCompile Include="SrcEngine\DirectX\SpConstBuffer.cpp" />
     <ClCompile Include="SrcEngine\DirectX\SpDepth.cpp" />
     <ClCompile Include="SrcEngine\DirectX\SpDirectX.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="SrcEngine\Collider\SphereCollider.h" />
     <ClInclude Include="SrcEngine\DirectX\GPipeline.h" />
     <ClInclude Include="SrcEngine\DirectX\GPipelineManager.h" />
+    <ClInclude Include="SrcEngine\DirectX\RootSignatureManager.h" />
     <ClInclude Include="SrcEngine\DirectX\SpConstBuffer.h" />
     <ClInclude Include="SrcEngine\DirectX\SpDepth.h" />
     <ClInclude Include="SrcEngine\DirectX\SpDirectX.h" />
