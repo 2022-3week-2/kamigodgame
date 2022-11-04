@@ -154,8 +154,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="RootSignatureManager.cpp" />
+    <ClCompile Include="SrcApplication\Bullet.cpp" />
+    <ClCompile Include="SrcApplication\Player.cpp" />
     <ClCompile Include="SrcApplication\Scene\SceneManager.cpp" />
     <ClCompile Include="SrcApplication\Scene\SingleCamTestScene.cpp" />
     <ClCompile Include="SrcApplication\Scene\TestScene.cpp" />
@@ -178,6 +180,7 @@
     <ClCompile Include="SrcEngine\Light\DirectionalLight.cpp" />
     <ClCompile Include="SrcEngine\Light\Light.cpp" />
     <ClCompile Include="SrcEngine\Light\PointLight.cpp" />
+    <ClCompile Include="SrcEngine\Math\Easing.cpp" />
     <ClCompile Include="SrcEngine\Math\Matrix.cpp" />
     <ClCompile Include="SrcEngine\Math\Vec2.cpp" />
     <ClCompile Include="SrcEngine\Math\Vec3.cpp" />
@@ -199,7 +202,9 @@
     <ClCompile Include="SrcEngine\Windows\SpWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="RootSignatureManager.h" />
+    <ClInclude Include="GameScene.h" />
+    <ClInclude Include="SrcApplication\Bullet.h" />
+    <ClInclude Include="SrcApplication\Player.h" />
     <ClInclude Include="SrcApplication\Scene\SceneManager.h" />
     <ClInclude Include="SrcApplication\Scene\SingleCamTestScene.h" />
     <ClInclude Include="SrcApplication\Scene\TestScene.h" />
@@ -222,6 +227,7 @@
     <ClInclude Include="SrcEngine\Light\DirectionalLight.h" />
     <ClInclude Include="SrcEngine\Light\Light.h" />
     <ClInclude Include="SrcEngine\Light\PointLight.h" />
+    <ClInclude Include="SrcEngine\Math\Easing.h" />
     <ClInclude Include="SrcEngine\Math\Float2.h" />
     <ClInclude Include="SrcEngine\Math\Float3.h" />
     <ClInclude Include="SrcEngine\Math\Float4.h" />
