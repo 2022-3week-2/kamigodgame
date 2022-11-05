@@ -1,6 +1,7 @@
 #pragma once
 #include "SpMath.h"
 #include "Bullet.h"
+#include "Boss.h"
 #include <Object3D.h>
 #include <memory>
 #include <list>
@@ -12,7 +13,7 @@ private:
 	std::unique_ptr<Model> playerModel;
 	std::unique_ptr<Model> bulletModel;
 
-	Object3D* bossObjPtr;	// ボスのポインタ
+	Boss* bossPtr;	// ボスのポインタ
 
 private:
 	// 移動関連
@@ -23,6 +24,8 @@ private:
 private:
 	// ジャンプ関連
 	float gravity;	// 重力
+	int jumpCount;		// ジャンプした回数
+	int jumpMaxCount;	// マックス回数
 
 private:
 	// ショット関連
@@ -50,6 +53,7 @@ public:
 
 public:
 	// セッター
-	inline void SetBossObj(Object3D* bossObjPtr) { this->bossObjPtr = bossObjPtr; }
+	inline void SetBossPtr(Boss* bossPtr) { this->bossPtr = bossPtr; }
+
 };
 

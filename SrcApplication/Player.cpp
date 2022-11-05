@@ -4,46 +4,126 @@
 #include <TextDrawer.h>
 using namespace Input;
 
+Player::Player() :
+	speed(0.5), gravity(0), jumpCount(0), jumpMaxCount(1),
+	moveAngle(0.01), moveLenght(10),
+	shotTimer(5), shotMaxTimer(5)
+{
+}
+Player::~Player()
+{
+}
+
+void Player::Load()
+{
+	playerModel.reset(new Model("TempPlayer"));
+	bulletModel.reset(new Model("sphere"));
+}
+void Player::Init()
+{
+	playerObj = std::move(std::make_unique<Object3D>());
+	playerObj->model = playerModel.get();
+	playerObj->position.z = -10;
+}
+void Player::Update()
+{
+	MoveUpdate();	// ˆÚ“®ˆ—
+	JumpUpdate();	// ƒWƒƒƒ“ƒvˆ—
+	ShotUpdate();	// ’e‚ð‘Å‚Âˆ—
+
+	playerObj->UpdateMatrix();
+}
+void Player::DrawModel()
+{
+	for (const auto& currentBullet : bullets)
+	{
+		currentBullet->DrawModel();
+	}
+
+	playerObj->Draw();
+}
+
+//void Player::MoveUpdate()
+//{
+//	// ˆÚ“®ˆ—
+//	Vec3 dis = bossPtr->GetPosition() - playerObj->position;
+//	dis.y = 0;
+//
+//	const int offset = 200;
+//	if (Key::Down(DIK_RIGHT) || Pad::GetLStick().x >= offset)
+//	{
+//		moveAngle += speed * 4;
+//		playerObj->position.x = dis.GetLength() * cosf(AngleToRadian(moveAngle)) + bossPtr->GetPosition().x;
+//		playerObj->position.z = dis.GetLength() * sinf(AngleToRadian(moveAngle)) + bossPtr->GetPosition().z;
+//	}
+//	if (Key::Down(DIK_LEFT) || Pad::GetLStick().x <= -offset)
+//	{
+//		moveAngle -= speed * 4;
+//		playerObj->position.x = dis.GetLength() * cosf(AngleToRadian(moveAngle)) + bossPtr->GetPosition().x;
+//		playerObj->position.z = dis.GetLength() * sinf(AngleToRadian(moveAngle)) + bossPtr->GetPosition().z;
+//	}
+//	if (Key::Down(DIK_UP) || Pad::GetLStick().y > offset)
+//	{
+//		if (dis.GetLength() > 1)
+//		{
+//			playerObj->position.x += dis.GetNorm().x * speed;
+//			playerObj->position.z += dis.GetNorm().z * speed;
+//		}
+//	}
+//	if (Key::Down(DIK_DOWN) || Pad::GetLStick().y < -offset)
+//	{
+//		playerObj->position.x -= dis.GetNorm().x * speed;
+//		playerObj->position.z -= dis.GetNorm().z * speed;
+//	}
+//	if (bossPtr != nullptr)
+//	{
+//		Vec2 rotVec =
+//		{
+//			-(bossPtr->GetPosition().x - playerObj->position.x),
+//			bossPtr->GetPosition().z - playerObj->position.z,
+//		};
+//		playerObj->rotation.y = atan2f(rotVec.Norm().y, rotVec.Norm().x);
+//
+//		if (!Key::Down(DIK_RIGHT) && !Key::Down(DIK_LEFT) &&
+//			Pad::GetLStick().x < offset && Pad::GetLStick().x > -offset)
+//		{
+//			moveAngle = -RadianToAngle(atan2f(rotVec.Norm().y, rotVec.Norm().x));
+//		}
+//	}
+//}
+
 void Player::MoveUpdate()
 {
-	// ˆÚ“®ˆ—
-	//playerObj->position.x += Pad::GetLStick().x * speed;
-	//playerObj->position.z += Pad::GetLStick().y * speed;
+	const int offset = 200;
+	if (Key::Down(DIK_RIGHT) || Pad::GetLStick().x >= offset)
+	{
+		playerObj->position.x += speed;
+	}
+	if (Key::Down(DIK_LEFT) || Pad::GetLStick().x <= -offset)
+	{
+		playerObj->position.x -= speed;
+	}
+	if (Key::Down(DIK_UP) || Pad::GetLStick().y > offset)
+	{
+		playerObj->position.z += speed;
 
-	if (Key::Down(DIK_RIGHT))
-	{
-		moveAngle += speed * 2;
 	}
-	if (Key::Down(DIK_LEFT))
+	if (Key::Down(DIK_DOWN) || Pad::GetLStick().y < -offset)
 	{
-		moveAngle -= speed * 2;
-	}
-	if (Key::Down(DIK_UP))
-	{
-		moveLenght += speed;
-	}
-	if (Key::Down(DIK_DOWN))
-	{
-		moveLenght -= speed;
-	}
-	if (bossObjPtr != nullptr)
-	{
-		playerObj->position.x = moveLenght * cosf(AngleToRadian(moveAngle)) + bossObjPtr->position.x;
-		playerObj->position.z = moveLenght * sinf(AngleToRadian(moveAngle)) + bossObjPtr->position.y;
-
-		Vec2 dis =
-		{
-			-(bossObjPtr->position.x - playerObj->position.x),
-			bossObjPtr->position.z - playerObj->position.z,
-		};
-		playerObj->rotation.y = atan2f(dis.Norm().y, dis.Norm().x);
+		playerObj->position.z -= speed;
 	}
 }
+
+
 void Player::JumpUpdate()
 {
-	if (Key::Triggered(DIK_X))
+	if (Key::Triggered(DIK_X) || Pad::Triggered(Button::A))
 	{
-		gravity = 0.75;
+		if (jumpCount < jumpMaxCount)
+		{
+			gravity = 0.75;
+			jumpCount++;
+		}
 	}
 
 	gravity -= 0.05;
@@ -55,17 +135,18 @@ void Player::JumpUpdate()
 	if (playerObj->position.y < 0)
 	{
 		playerObj->position.y = 0;
+		jumpCount = 0;
 	}
 }
 void Player::ShotUpdate()
 {
 	// ¶¬
-	if (Key::Down(DIK_Z))
+	if (Key::Down(DIK_Z) || Pad::Down(Button::X))
 	{
 		shotTimer++;
 		if (shotTimer >= shotMaxTimer)
 		{
-			Vec3 frontVec = (Vec3)bossObjPtr->position - playerObj->position;
+			Vec3 frontVec = (Vec3)bossPtr->GetPosition() - playerObj->position;
 
 			bullets.emplace_back(std::move(std::make_unique<Bullet>(
 				playerObj->position, frontVec.Norm(), bulletModel.get()
@@ -86,45 +167,4 @@ void Player::ShotUpdate()
 		{
 			return !bullet->GetisActive();
 		});
-}
-
-Player::Player() :
-	speed(0.5), gravity(0),
-	moveAngle(0.01), moveLenght(-10),
-	shotTimer(5), shotMaxTimer(5)
-{
-}
-Player::~Player()
-{
-}
-
-void Player::Load()
-{
-	playerModel.reset(new Model("tempPlayer"));
-	bulletModel.reset(new Model("sphere"));
-}
-void Player::Init()
-{
-	playerObj = std::move(std::make_unique<Object3D>());
-	playerObj->model = playerModel.get();
-	playerObj->position.z = -10;
-}
-void Player::Update()
-{
-
-	MoveUpdate();	// ˆÚ“®ˆ—
-	JumpUpdate();	// ƒWƒƒƒ“ƒvˆ—
-	ShotUpdate();	// ’e‚ð‘Å‚Âˆ—
-
-	playerObj->UpdateMatrix();
-}
-
-void Player::DrawModel()
-{
-	for (const auto& currentBullet : bullets)
-	{
-		currentBullet->DrawModel();
-	}
-
-	playerObj->Draw();
 }

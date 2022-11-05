@@ -115,6 +115,12 @@
     <Filter Include="Engine\ソースファイル\DirectX">
       <UniqueIdentifier>{c25a2f10-50c4-4476-8fc5-f91b99251afc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Application\ヘッダーファイル\Boss">
+      <UniqueIdentifier>{2344e03f-97e6-4848-979a-45b3fb47bdde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application\ソースファイル\Boss">
+      <UniqueIdentifier>{16e72561-e892-4361-a36e-e3052be118d1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -248,6 +254,18 @@
     </ClCompile>
     <ClCompile Include="SrcEngine\DirectX\RootSignatureManager.cpp">
       <Filter>Engine\ソースファイル\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="SrcApplication\Field.cpp">
+      <Filter>Application\ソースファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SrcApplication\Boss.cpp">
+      <Filter>Application\ソースファイル\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="SrcApplication\BossRush.cpp">
+      <Filter>Application\ソースファイル\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="SrcApplication\BezierCurve.cpp">
+      <Filter>未分類\ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -388,6 +406,21 @@
     </ClInclude>
     <ClInclude Include="SrcEngine\DirectX\RootSignatureManager.h">
       <Filter>Engine\ヘッダーファイル\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="SrcApplication\Field.h">
+      <Filter>Application\ヘッダーファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SrcApplication\Boss.h">
+      <Filter>Application\ヘッダーファイル\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="SrcApplication\IBossMotion.h">
+      <Filter>Application\ヘッダーファイル\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="SrcApplication\BossRush.h">
+      <Filter>Application\ヘッダーファイル\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="SrcApplication\BezierCurve.h">
+      <Filter>未分類\ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

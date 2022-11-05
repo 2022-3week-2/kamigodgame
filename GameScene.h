@@ -1,6 +1,8 @@
 #pragma once
 #include "IScene.h"
 #include "SrcApplication/Player.h"
+#include "SrcApplication/Boss.h"
+#include "SrcApplication/Field.h"
 #include <Object3D.h>
 #include <Camera.h>
 #include <memory.h>
@@ -22,10 +24,9 @@ private:
 	Object3D sky;
 	Model mSky;
 
-	Object3D boss;
-	Model mRegularSurface_20;
-
 	std::unique_ptr<Player> player;
+	std::unique_ptr<Boss> boss;
+	std::unique_ptr<Field> field;
 
 	TextureKey whiteTex;
 
