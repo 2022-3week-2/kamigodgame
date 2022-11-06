@@ -3,9 +3,11 @@
 #include "SpMath.h"
 #include <TextDrawer.h>
 #include "Input.h"
+#include "SrcApplication/Random.h"
 
 void GameScene::Init()
 {
+	Random::Init();	// ƒ‰ƒ“ƒ_ƒ€‚Ì‰Šú‰»
 	SpTextureManager::Init();
 	camera.UseDefaultParams();
 	camera.renderWidth = 300;

@@ -2,21 +2,23 @@
 #include "SpMath.h"
 #include "Bullet.h"
 #include "IBossMotion.h"
-#include "BossRush.h"
 #include <Object3D.h>
 #include <memory>
 
 class IBossMotion;
-class BossRush;
+//class BossRush;
+//class BossRockFall;
 
 class Boss
 {
 private:
-	friend BossRush;
+	//friend BossRush;
+	//friend BossRockFall;
 
 private:
 	std::unique_ptr<Object3D> bossObj;
 	std::unique_ptr<Model> bossModel;
+	std::unique_ptr<Model> rockModel;
 	std::unique_ptr<IBossMotion> bossMotion;
 
 public:
@@ -29,6 +31,8 @@ public:
 public:
 	// ゲッター
 	inline Vec3 GetPosition() { return bossObj->position; }
+	inline Object3D* GetBossObj() { return bossObj.get(); }
+	inline Model* GetRockModel() { return rockModel.get(); }
 
 public:
 	// セッター

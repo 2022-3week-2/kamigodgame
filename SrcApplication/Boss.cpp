@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "Boss.h"
+#include "BossRush.h"
+#include "BossRockFall.h"
+#include "Random.h"
 
 Boss::Boss()
 {
@@ -8,6 +11,7 @@ Boss::Boss()
 void Boss::Load()
 {
 	bossModel.reset(new Model("20Surface"));
+	rockModel.reset(new Model("sphere"));
 }
 void Boss::Init()
 {
@@ -17,7 +21,7 @@ void Boss::Init()
 	bossObj->scale = { 5,5,5 };
 
 	// ÉÇÅ[ÉVÉáÉì
-	bossMotion = std::move(std::make_unique<BossRush>());
+	bossMotion = std::move(std::make_unique<BossRockFall>());
 	bossMotion->SetBossPtr(this);
 	bossMotion->Init();
 }
@@ -25,7 +29,24 @@ void Boss::Update()
 {
 	if (bossMotion->GetisEnd() == true)
 	{
+		std::unique_ptr<IBossMotion> nextMotion;
+		switch (Random::Range(0, 1))
+		{
+		case 0:
+			nextMotion = std::make_unique<BossRush>();
+			break;
 
+		case 1:
+			nextMotion = std::make_unique<BossRockFall>();
+			break;
+
+		default:
+			break;
+		}
+
+		bossMotion = std::move(nextMotion);
+		bossMotion->SetBossPtr(this);
+		bossMotion->Init();
 	}
 	else
 	{
@@ -36,5 +57,10 @@ void Boss::Update()
 }
 void Boss::DrawModel()
 {
+	if (bossMotion->GetisEnd() == false)
+	{
+		bossMotion->DrawModel();
+	}
+
 	bossObj->Draw();
 }

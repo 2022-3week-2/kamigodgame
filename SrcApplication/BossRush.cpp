@@ -12,29 +12,21 @@ void BossRush::Init()
 
 	StartInit();
 }
-
 void BossRush::Update()
 {
-	switch (step)
+	// 関数ポインタ
+	void (BossRush:: * pFunc[])() =
 	{
-	case Start:
-		StartUpdate();
-		break;
-	case Rush1:
-		Rush1Update();
-		break;
-	case Rush2:
-		Rush2Update();
-		break;
-	case End:
-		EndUpdate();
-		break;
+		// 登録
+		&BossRush::StartUpdate,
+		&BossRush::Rush1Update,
+		&BossRush::Rush2Update,
+		&BossRush::EndUpdate,
+	};
 
-	default:
-		break;
-	}
+	// 実行
+	(this->*pFunc[step])();
 }
-
 void BossRush::DrawModel()
 {
 }
@@ -53,12 +45,12 @@ void BossRush::StartInit()
 	// 中間地点
 	Vec3 centerPos =
 	{
-		bossPtr->bossObj->position.x / 2,
+		bossPtr->GetBossObj()->position.x / 2,
 		30,
-		fabsf(bossPtr->bossObj->position.x - 30) / 2
+		fabsf(bossPtr->GetBossObj()->position.x - 30) / 2
 	};
 
-	noneBezierIn.AddPoint(bossPtr->bossObj->position);
+	noneBezierIn.AddPoint(bossPtr->GetBossObj()->position);
 	noneBezierIn.AddPoint(centerPos / 2);
 	noneBezierIn.AddPoint(centerPos);
 
@@ -66,19 +58,18 @@ void BossRush::StartInit()
 	noneBezierOut.AddPoint(centerPos / 2 + centerPos);
 	noneBezierOut.AddPoint({ 0,5,30 });
 }
-
 void BossRush::StartUpdate()
 {
 	if (noneBezierIn.GetisEnd() == false)
 	{
 		noneBezierIn.Update();
-		bossPtr->bossObj->position =
+		bossPtr->GetBossObj()->position =
 			noneBezierIn.InterPolation(BezierCurve::EaseIn);
 	}
 	else
 	{
 		noneBezierOut.Update();
-		bossPtr->bossObj->position =
+		bossPtr->GetBossObj()->position =
 			noneBezierOut.InterPolation(BezierCurve::EaseOut);
 	}
 
@@ -87,8 +78,6 @@ void BossRush::StartUpdate()
 		step = Rush1;
 	}
 }
-
-// ラッシュ
 void BossRush::Rush1Update()
 {
 	stayRushTimer++;
@@ -97,18 +86,17 @@ void BossRush::Rush1Update()
 		stayRushTimer = stayRushMaxTimer;
 
 		const Vec3 targetPos = { 0,5,-40 };
-		Vec3 vec = targetPos - bossPtr->bossObj->position;
-		bossPtr->bossObj->position += vec.Norm() * rushSpeed;
+		Vec3 vec = targetPos - bossPtr->GetBossObj()->position;
+		bossPtr->GetBossObj()->position += vec.Norm() * rushSpeed;
 
 		if (vec.GetLength() <= 0.5f)
 		{
-			bossPtr->bossObj->position = { 50,5,0 };
+			bossPtr->GetBossObj()->position = { 50,5,0 };
 			stayRushTimer = 0;
 			step = Rush2;
 		}
 	}
 }
-
 void BossRush::Rush2Update()
 {
 	stayRushTimer++;
@@ -117,12 +105,12 @@ void BossRush::Rush2Update()
 		stayRushTimer = stayRushMaxTimer;
 
 		const Vec3 targetPos = { -30,5,0 };
-		Vec3 vec = targetPos - bossPtr->bossObj->position;
-		bossPtr->bossObj->position += vec.Norm() * rushSpeed;
+		Vec3 vec = targetPos - bossPtr->GetBossObj()->position;
+		bossPtr->GetBossObj()->position += vec.Norm() * rushSpeed;
 
 		if (vec.GetLength() <= 0.5f)
 		{
-			bossPtr->bossObj->position = targetPos;
+			bossPtr->GetBossObj()->position = targetPos;
 			stayRushTimer = 0;
 			step = End;
 		}

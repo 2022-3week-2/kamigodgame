@@ -5,8 +5,9 @@ class Boss;
 class IBossMotion
 {
 protected:
+	int step;		// モーションのステップ
 	Boss* bossPtr;	// ボスのポインタ
-	bool isEnd;	// モーション終了フラグ
+	bool isEnd;		// モーション終了フラグ
 
 public:
 	virtual ~IBossMotion() {}

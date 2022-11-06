@@ -17,6 +17,7 @@ private:
 
 private:
 	// 移動関連
+	Vec3 frontVec;		// 正面ベクトル
 	float speed;		// 移動速度
 	float moveAngle;	// ボスを中心に左右移動の時に回転する角度
 	float moveLenght;	// ボスを中心に前後移動の時のボスとの距離

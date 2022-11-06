@@ -3,6 +3,8 @@
 #include "Easing.h"
 #include "BezierCurve.h"
 
+class Boss;
+
 class BossRush : public IBossMotion
 {
 private:
@@ -13,9 +15,6 @@ private:
 		Rush2,
 		End,
 	};
-
-private:
-	int step;
 
 private:
 	BezierCurve noneBezierIn;
@@ -34,17 +33,13 @@ private:
 private:
 	void StartInit();
 	void StartUpdate();
-
 	void Rush1Update();
 	void Rush2Update();
-
-	void EndInit();
 	void EndUpdate();
 
 public:
 	void Init() override;
 	void Update() override;
 	void DrawModel() override;
-
 };
 
