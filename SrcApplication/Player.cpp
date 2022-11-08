@@ -93,11 +93,29 @@ void Player::JumpUpdate()
 		gravity = -1;
 	}
 	playerObj->position.y += gravity;
-	if (playerObj->position.y < 0)
+
+	if ((playerObj->position.x - fieldPtr->GetPosition().x) *
+		(playerObj->position.x - fieldPtr->GetPosition().x) +
+		(playerObj->position.z - fieldPtr->GetPosition().z) *
+		(playerObj->position.z - fieldPtr->GetPosition().z) <=
+		(playerObj->scale.x + 30) * (playerObj->scale.x + 30))
 	{
-		playerObj->position.y = 0;
-		jumpCount = 0;
+		gravity = 0;
+		if (playerObj->position.y < 0)
+		{
+			playerObj->position.y = 0;
+			jumpCount = 0;
+		}
 	}
+	else
+	{
+		if (playerObj->position.y < -5)
+		{
+			playerObj->position = { 0,0,-10 };
+			jumpCount = 0;
+		}
+	}
+
 }
 void Player::ShotUpdate()
 {
@@ -127,4 +145,8 @@ void Player::ShotUpdate()
 		{
 			return !bullet->GetisActive();
 		});
+}
+void Player::DamageUpdate()
+{
+
 }

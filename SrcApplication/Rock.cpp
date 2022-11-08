@@ -1,32 +1,43 @@
 #include "stdafx.h"
 #include "Rock.h"
 
-Rock::Rock(const Vec3 pos, Model* rockModel) :
+Rock::Rock(const Vec3 pos, Model* rockModel, Model* rockShadowModel) :
 	rockObj(std::move(std::make_unique<Object3D>())),
-	gravity(0), isActive(true)
+	rockShadowObj(std::move(std::make_unique<Object3D>())),
+	gravity(0), isActive(true), isFall(false)
 {
 	rockObj->position = pos;
+	rockObj->scale = { 5,2,5 };
 	rockObj->model = rockModel;
+
+	rockShadowObj->position = { pos.x,0,pos.z };
+	rockShadowObj->scale = { 5,1,5 };
+	rockShadowObj->model = rockShadowModel;
 }
 
 void Rock::Update()
 {
-	rockObj->position.y -= gravity;
-	gravity += 0.05;
-	if (gravity >= 1)
+	if (isFall == true)
 	{
-		gravity = 1;
-	}
+		rockObj->position.y -= gravity;
+		gravity += 0.05f;
+		if (gravity >= 0.75f)
+		{
+			gravity = 0.75f;
+		}
 
-	if (rockObj->position.y <= 0)
-	{
-		isActive = false;
+		if (rockObj->position.y <= 0)
+		{
+			isActive = false;
+		}
 	}
 
 	rockObj->UpdateMatrix();
+	rockShadowObj->UpdateMatrix();
 }
 
 void Rock::DrawModel()
 {
+	rockShadowObj->Draw();
 	rockObj->Draw();
 }

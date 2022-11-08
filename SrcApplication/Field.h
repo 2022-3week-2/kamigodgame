@@ -15,5 +15,9 @@ public:
 	void Init();
 	void Update();
 	void DrawModel();
+
+public:
+	// ƒQƒbƒ^[
+	inline Vec3 GetPosition() { return fieldObj->position; }
 };
 

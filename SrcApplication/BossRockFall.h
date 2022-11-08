@@ -10,6 +10,7 @@ private:
 	enum MotionStep
 	{
 		Start,
+		GeneRock,
 		RockFall,
 		End,
 	};
@@ -26,6 +27,7 @@ private:
 
 private:
 	void StartUpdate();
+	void GeneRockUpdate();
 	void RockFallUpdate();
 	void EndUpdate();
 

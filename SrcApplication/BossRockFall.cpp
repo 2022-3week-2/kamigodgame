@@ -7,9 +7,9 @@ void BossRockFall::Init()
 	step = Start;
 	rocks.clear();
 	rockFallTimer = 0;
-	rockFallMaxTimer = 540;
+	rockFallMaxTimer = 120;
 	generateTimer = 0;
-	generateMaxTimer = 30;
+	generateMaxTimer = 60;
 }
 void BossRockFall::Update()
 {
@@ -18,6 +18,7 @@ void BossRockFall::Update()
 	{
 		// “o˜^
 		&BossRockFall::StartUpdate,
+		&BossRockFall::GeneRockUpdate,
 		&BossRockFall::RockFallUpdate,
 		&BossRockFall::EndUpdate,
 	};
@@ -43,19 +44,29 @@ void BossRockFall::StartUpdate()
 	if (vec.GetLength() <= 0.5f)
 	{
 		bossPtr->GetBossObj()->position = { 0,5,0 };
-		step = RockFall;
+		step = GeneRock;
 	}
 }
-void BossRockFall::RockFallUpdate()
+void BossRockFall::GeneRockUpdate()
 {
-	rockFallTimer++;
-	if (rockFallTimer < rockFallMaxTimer)
+	Vec3 randomShakeAngle =
 	{
-		generateTimer++;
-		if (generateTimer >= generateMaxTimer)
+		Random::RangeF(-5,5),
+		Random::RangeF(-5,5),
+		Random::RangeF(-5,5),
+	};
+	bossPtr->SetRotation(AngleToRadian(randomShakeAngle));
+
+	generateTimer++;
+	if (generateTimer >= generateMaxTimer)
+	{
+		for (int i = 0; i < 10; i++)
 		{
 			int randomAngle = Random::Range(0, 360);
-			int randomLenght = Random::Range(-30, 30);
+			int randomLenght = Random::Range(-20, 20);
+
+			//int randomAngle = 0;
+			//int randomLenght = i * 10;
 
 			Vec3 randomPos =
 			{
@@ -65,30 +76,40 @@ void BossRockFall::RockFallUpdate()
 			};
 
 			rocks.emplace_back(std::move(std::make_unique<Rock>(
-				randomPos, bossPtr->GetRockModel())));
+				randomPos, bossPtr->GetRockModel(), bossPtr->GetRockShadowModel())));
+		}
 
-			generateTimer = 0;
+		bossPtr->SetRotation(AngleToRadian({ 0,0,0 }));
+		generateTimer = 0;
+		step = RockFall;
+	}
+}
+void BossRockFall::RockFallUpdate()
+{
+	rockFallTimer++;
+	if (rockFallTimer >= rockFallMaxTimer)
+	{
+		for (const auto& currentRock : rocks)
+		{
+			currentRock->SetisFall(true);
+		}
+
+		rocks.remove_if(
+			[](std::unique_ptr<Rock>& rock)
+			{
+				return !rock->GetisActive();
+			});
+
+		rockFallTimer = rockFallMaxTimer;
+		if (rocks.size() == 0)
+		{
+			step = End;
 		}
 	}
 
 	for (const auto& currentRock : rocks)
 	{
 		currentRock->Update();
-	}
-
-	rocks.remove_if(
-		[](std::unique_ptr<Rock>& rock)
-		{
-			return !rock->GetisActive();
-		});
-
-	if (rockFallTimer >= rockFallMaxTimer)
-	{
-		rockFallTimer = rockFallMaxTimer;
-		if (rocks.size() == 0)
-		{
-			step = End;
-		}
 	}
 }
 void BossRockFall::EndUpdate()

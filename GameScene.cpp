@@ -19,6 +19,11 @@ void GameScene::Init()
 	obj.model = &mCube;
 	sky.model = &mSky;
 
+	// フィールド
+	field = std::move(std::make_unique<Field>());
+	field->Load();
+	field->Init();
+
 	// ボス
 	boss = std::move(std::make_unique<Boss>());
 	boss->Load();
@@ -29,11 +34,7 @@ void GameScene::Init()
 	player->Load();
 	player->Init();
 	player->SetBossPtr(boss.get());
-
-	// フィールド
-	field = std::move(std::make_unique<Field>());
-	field->Load();
-	field->Init();
+	player->SetFieldPtr(field.get());
 
 	whiteTex = SpTextureManager::LoadTexture("Resources/white.png", "white");
 }

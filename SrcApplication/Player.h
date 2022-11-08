@@ -2,6 +2,7 @@
 #include "SpMath.h"
 #include "Bullet.h"
 #include "Boss.h"
+#include "Field.h"
 #include <Object3D.h>
 #include <memory>
 #include <list>
@@ -14,6 +15,7 @@ private:
 	std::unique_ptr<Model> bulletModel;
 
 	Boss* bossPtr;	// ボスのポインタ
+	Field* fieldPtr;	// フィールドのポインタ
 
 private:
 	// 移動関連
@@ -38,6 +40,7 @@ private:
 	void MoveUpdate();	// 移動処理
 	void JumpUpdate();	// ジャンプ処理
 	void ShotUpdate();	// 弾を打つ処理
+	void DamageUpdate();	// ダメージを受ける処理
 
 public:
 	Player();
@@ -55,6 +58,7 @@ public:
 public:
 	// セッター
 	inline void SetBossPtr(Boss* bossPtr) { this->bossPtr = bossPtr; }
+	inline void SetFieldPtr(Field* fieldPtr) { this->fieldPtr = fieldPtr; }
 
 };
 
