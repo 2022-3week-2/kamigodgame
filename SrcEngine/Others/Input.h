@@ -85,6 +85,11 @@ namespace Input {
 		{
 			float x;
 			float y;
+
+			operator Vec2()
+			{
+				return Vec2(x, y);
+			};
 		};
 
 		//左スティックの移動量を-1000から1000で返す

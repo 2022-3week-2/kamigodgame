@@ -112,8 +112,10 @@ void GameScene::DrawSprite()
 {
 	//TextDrawer::DrawString("hogeほげーー", 100, 100, Align::TopLeft);
 
-	StringOptions stringOptions = { 20,2,2 };
-	TextDrawer::DrawString("アローキー：移動", 20, 20, Align::TopLeft);
-	TextDrawer::DrawString("[Z]：ショット", 20, 84, Align::TopLeft);
-	TextDrawer::DrawString("[X]：ジャンプ", 20, 148, Align::TopLeft);
+	StringOptions so;
+	so.fontOptions.resolution = 24;
+	so.size = 24;
+	TextDrawer::DrawString("アローキー：移動", 20, 20, Align::TopLeft, so);
+	TextDrawer::DrawString("[Z]：ショット", 20, 44, Align::TopLeft, so);
+	TextDrawer::DrawString("[X]：ジャンプ", 20, 68, Align::TopLeft, so);
 }
