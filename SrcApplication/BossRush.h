@@ -3,7 +3,7 @@
 #include "Easing.h"
 #include "BezierCurve.h"
 
-class Boss;
+//class Boss;
 
 class BossRush : public IBossMotion
 {

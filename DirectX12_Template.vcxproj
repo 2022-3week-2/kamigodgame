@@ -160,6 +160,7 @@
     <ClCompile Include="SrcApplication\Boss.cpp" />
     <ClCompile Include="SrcApplication\BossRockFall.cpp" />
     <ClCompile Include="SrcApplication\BossRush.cpp" />
+    <ClCompile Include="SrcApplication\BossShot.cpp" />
     <ClCompile Include="SrcApplication\Bullet.cpp" />
     <ClCompile Include="SrcApplication\Collision.cpp" />
     <ClCompile Include="SrcApplication\Field.cpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="SrcApplication\Scene\SceneManager.cpp" />
     <ClCompile Include="SrcApplication\Scene\SingleCamTestScene.cpp" />
     <ClCompile Include="SrcApplication\Scene\TestScene.cpp" />
+    <ClCompile Include="SrcApplication\Stone.cpp" />
     <ClCompile Include="SrcEngine\2D\Sprite.cpp" />
     <ClCompile Include="SrcEngine\3D\Billboard.cpp" />
     <ClCompile Include="SrcEngine\3D\Camera.cpp" />
@@ -216,6 +218,7 @@
     <ClInclude Include="SrcApplication\Boss.h" />
     <ClInclude Include="SrcApplication\BossRockFall.h" />
     <ClInclude Include="SrcApplication\BossRush.h" />
+    <ClInclude Include="SrcApplication\BossShot.h" />
     <ClInclude Include="SrcApplication\Bullet.h" />
     <ClInclude Include="SrcApplication\Collision.h" />
     <ClInclude Include="SrcApplication\Field.h" />
@@ -226,6 +229,7 @@
     <ClInclude Include="SrcApplication\Scene\SceneManager.h" />
     <ClInclude Include="SrcApplication\Scene\SingleCamTestScene.h" />
     <ClInclude Include="SrcApplication\Scene\TestScene.h" />
+    <ClInclude Include="SrcApplication\Stone.h" />
     <ClInclude Include="SrcEngine\2D\Sprite.h" />
     <ClInclude Include="SrcEngine\3D\Billboard.h" />
     <ClInclude Include="SrcEngine\3D\Camera.h" />

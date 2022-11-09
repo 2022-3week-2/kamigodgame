@@ -1,13 +1,14 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "Input.h"
+#include "Collision.h"
 #include <TextDrawer.h>
 using namespace Input;
 
 Player::Player() :
 	speed(0.3), gravity(0), jumpCount(0), jumpMaxCount(1),
-	moveAngle(0.01), moveLenght(10),
-	shotTimer(5), shotMaxTimer(5)
+	moveAngle(0.01), moveLenght(10), collisionRadius(1),
+	shotTimer(5), shotMaxTimer(5), stoneNumber(0), stoneMaxNumber(10)
 {
 }
 Player::~Player()
@@ -24,12 +25,15 @@ void Player::Init()
 	playerObj = std::move(std::make_unique<Object3D>());
 	playerObj->model = playerModel.get();
 	playerObj->position.z = -10;
+
+	//stone = std::move(std::make_unique<Stone>(playerObj->position, fieldPtr->GetStoneModel(), 0));
 }
 void Player::Update()
 {
 	MoveUpdate();	// ˆÚ“®ˆ—
 	JumpUpdate();	// ƒWƒƒƒ“ƒvˆ—
 	ShotUpdate();	// ’e‚ð‘Å‚Âˆ—
+	//StoneUpdate();
 
 	playerObj->UpdateMatrix();
 }
@@ -39,6 +43,8 @@ void Player::DrawModel()
 	{
 		currentBullet->DrawModel();
 	}
+
+	//stone->DrawModel();
 
 	playerObj->Draw();
 }
@@ -72,6 +78,17 @@ void Player::MoveUpdate()
 			Pad::GetLStick().x,
 			0,
 			Pad::GetLStick().y,
+		};
+		playerObj->rotation.y = atan2f(frontVec.Norm().z, -frontVec.Norm().x);
+	}
+	else if (Key::Down(DIK_RIGHT) || Key::Down(DIK_LEFT) ||
+		Key::Down(DIK_UP) || Key::Down(DIK_DOWN))
+	{
+		frontVec =
+		{
+			(float)(Key::Down(DIK_RIGHT) - Key::Down(DIK_LEFT)),
+			0,
+			(float)(Key::Down(DIK_UP) - Key::Down(DIK_DOWN)),
 		};
 		playerObj->rotation.y = atan2f(frontVec.Norm().z, -frontVec.Norm().x);
 	}
@@ -126,7 +143,7 @@ void Player::ShotUpdate()
 		if (shotTimer >= shotMaxTimer)
 		{
 			bullets.emplace_back(std::move(std::make_unique<Bullet>(
-				playerObj->position, frontVec.Norm(), bulletModel.get())));
+				playerObj->position, frontVec.Norm(), 40, bulletModel.get())));
 			shotTimer = 0;
 		}
 	}
@@ -143,6 +160,55 @@ void Player::ShotUpdate()
 		{
 			return !bullet->GetisActive();
 		});
+}
+void Player::StoneUpdate()
+{
+	if (stoneNumber < stoneMaxNumber)
+	{
+		SphereCollider playerCollider =
+		{
+			playerObj->position,collisionRadius
+		};
+
+		for (std::list<std::unique_ptr<Stone>>::iterator it = fieldPtr->GetStones()->begin();
+			it != fieldPtr->GetStones()->end(); it++)
+		{
+			SphereCollider stoneCollider =
+			{
+				it->get()->GetPosition(),it->get()->GetCollisionRadius()
+			};
+
+			if (Collision::SphereHitSphere(playerCollider, stoneCollider))
+			{
+				if (it->get()->GetisCarry() == false)
+				{
+					it->get()->SetisCarry(true);
+					stoneNumber++;
+				}
+			}
+		}
+	}
+
+	if (stoneNumber > 0)
+	{
+		if (stone->GetisShot() == false)
+		{
+			const float maxScale = 3;
+			const float scale = 1 + maxScale * stoneNumber / stoneMaxNumber;
+			stone->SetPosition(playerObj->position);
+			stone->SetScale({ scale ,scale ,scale });
+		}
+
+		if (Pad::Triggered(Button::Y))
+		{
+			stone->SetisShot(true);
+			stone->SetShotParam({ frontVec.Norm(),0.5f,0.5f });
+		}
+
+		stone->Update();
+		stone->ShotUpdate();
+	}
+
 }
 void Player::DamageUpdate()
 {

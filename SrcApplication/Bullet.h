@@ -18,7 +18,7 @@ private:
 	int activeMaxTimer;
 
 public:
-	Bullet(const Vec3 pos, const Vec3 vec, Model* bulletModel);
+	Bullet(const Vec3 pos, const Vec3 vec, const int& activeMaxTimer, Model* bulletModel);
 	void Update();
 	void DrawModel();
 
@@ -30,6 +30,7 @@ public:
 
 public:
 	// セッター
+	inline void SetScale(const Vec3& scale) { bulletObj->scale = scale; collisionRadius = scale.x; }
 	inline void SetisActive(const bool& isActive) { this->isActive = isActive; }
 };
 

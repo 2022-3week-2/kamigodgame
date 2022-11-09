@@ -15,6 +15,11 @@ private:
 		End,
 	};
 
+	enum RockFallPattern
+	{
+		FourRock,
+	};
+
 private:
 	int step;
 
@@ -30,6 +35,10 @@ private:
 	void GeneRockUpdate();
 	void RockFallUpdate();
 	void EndUpdate();
+
+	void FourRocksPattern(const float& angle);
+	void EightRocksPattern(const float& angle);
+	void SixteenRocksPattern(const float& angle);
 
 public:
 	void Init() override;

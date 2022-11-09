@@ -96,14 +96,16 @@ void GameScene::Draw3D()
 
 void GameScene::DrawSprite()
 {
+	boss->DrawSpriteFront();
+
 	//TextDrawer::DrawString("hogeほげーー", 100, 100, Align::TopLeft);
 
 	StringOptions so;
 	so.fontOptions.resolution = 24;
 	so.size = 24;
-	TextDrawer::DrawString("アローキー：移動", 20, 20, Align::TopLeft, so);
-	TextDrawer::DrawString("[Z]：ショット", 20, 44, Align::TopLeft, so);
-	TextDrawer::DrawString("[X]：ジャンプ", 20, 68, Align::TopLeft, so);
+	//TextDrawer::DrawString("アローキー：移動", 20, 20, Align::TopLeft, so);
+	//TextDrawer::DrawString("[Z]：ショット", 20, 44, Align::TopLeft, so);
+	//TextDrawer::DrawString("[X]：ジャンプ", 20, 68, Align::TopLeft, so);
 }
 
 void GameScene::GenerateObj()
@@ -111,24 +113,26 @@ void GameScene::GenerateObj()
 	// プレイヤー
 	player = std::move(std::make_unique<Player>());
 	player->Load();
-	player->Init();
 
 	// ボス
 	boss = std::move(std::make_unique<Boss>());
 	boss->Load();
-	boss->Init();
 
 	// フィールド
 	field = std::move(std::make_unique<Field>());
 	field->Load();
-	field->Init();
 }
 void GameScene::SetAllObjPtr()
 {
+	// フィールド
+	field->Init();
+
 	// プレイヤー
 	player->SetBossPtr(boss.get());
 	player->SetFieldPtr(field.get());
+	player->Init();
 
 	// ボス
 	boss->SetPlayerPtr(player.get());
+	boss->Init();
 }

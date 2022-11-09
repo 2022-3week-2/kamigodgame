@@ -7,7 +7,7 @@ Rock::Rock(const Vec3 pos, Model* rockModel, Model* rockShadowModel) :
 	gravity(0), isActive(true), isFall(false)
 {
 	rockObj->position = pos;
-	rockObj->scale = { 5,2,5 };
+	rockObj->scale = { 5,5,5 };
 	rockObj->model = rockModel;
 
 	rockShadowObj->position = { pos.x,0,pos.z };

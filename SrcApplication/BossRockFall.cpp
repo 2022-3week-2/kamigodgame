@@ -60,24 +60,26 @@ void BossRockFall::GeneRockUpdate()
 	generateTimer++;
 	if (generateTimer >= generateMaxTimer)
 	{
-		for (int i = 0; i < 10; i++)
+		int randomAngle = Random::RangeF(1, 360);
+		//int randomAngle = 0;
+		switch (bossPtr->GetBossForm())
 		{
-			int randomAngle = Random::Range(0, 360);
-			int randomLenght = Random::Range(-20, 20);
+		case 1:
+			FourRocksPattern(randomAngle);
+			break;
 
-			//int randomAngle = 0;
-			//int randomLenght = i * 10;
+		case 2:
+			EightRocksPattern(randomAngle);
+			break;
 
-			Vec3 randomPos =
-			{
-				cosf(AngleToRadian(randomAngle)) * randomLenght,
-				50.0f,
-				sinf(AngleToRadian(randomAngle)) * randomLenght,
-			};
+		case 3:
+			SixteenRocksPattern(randomAngle);
+			break;
 
-			rocks.emplace_back(std::move(std::make_unique<Rock>(
-				randomPos, bossPtr->GetRockModel(), bossPtr->GetRockShadowModel())));
+		default:
+			break;
 		}
+
 
 		bossPtr->SetRotation(AngleToRadian({ 0,0,0 }));
 		generateTimer = 0;
@@ -115,4 +117,59 @@ void BossRockFall::RockFallUpdate()
 void BossRockFall::EndUpdate()
 {
 	isEnd = true;
+}
+
+void BossRockFall::FourRocksPattern(const float& angle)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		int lenght = 15;
+		float radian = AngleToRadian(angle + i * 90);
+
+		Vec3 pos =
+		{
+			cosf(radian) * lenght,
+			50.0f,
+			sinf(radian) * lenght,
+		};
+
+		rocks.emplace_back(std::move(std::make_unique<Rock>(
+			pos, bossPtr->GetRockModel(), bossPtr->GetRockShadowModel())));
+	}
+}
+void BossRockFall::EightRocksPattern(const float& angle)
+{
+	for (int i = 0; i < 8; i++)
+	{
+		int lenght = 20;
+		float radian = AngleToRadian(angle + i * 45);
+
+		Vec3 pos =
+		{
+			cosf(radian) * lenght,
+			50.0f,
+			sinf(radian) * lenght,
+		};
+
+		rocks.emplace_back(std::move(std::make_unique<Rock>(
+			pos, bossPtr->GetRockModel(), bossPtr->GetRockShadowModel())));
+	}
+}
+void BossRockFall::SixteenRocksPattern(const float& angle)
+{
+	for (int i = 0; i < 16; i++)
+	{
+		int lenght = i >= 8 ? 22 : 12;
+		float radian = AngleToRadian(angle + i * 45);
+
+		Vec3 pos =
+		{
+			cosf(radian) * lenght,
+			50.0f,
+			sinf(radian) * lenght,
+		};
+
+		rocks.emplace_back(std::move(std::make_unique<Rock>(
+			pos, bossPtr->GetRockModel(), bossPtr->GetRockShadowModel())));
+	}
 }
