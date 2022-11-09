@@ -1,26 +1,35 @@
 #pragma once
 #include "SpMath.h"
-#include "Bullet.h"
+#include "Player.h"
 #include "IBossMotion.h"
 #include <Object3D.h>
 #include <memory>
 
 class IBossMotion;
-//class BossRush;
-//class BossRockFall;
+class Player;
 
 class Boss
 {
-private:
-	//friend BossRush;
-	//friend BossRockFall;
-
 private:
 	std::unique_ptr<Object3D> bossObj;
 	std::unique_ptr<Model> bossModel;
 	std::unique_ptr<Model> rockModel;
 	std::unique_ptr<Model> rockShadowModel;
 	std::unique_ptr<IBossMotion> bossMotion;
+	Player* playerPtr;
+
+private:
+	// パラメーター
+	float collisionRadius;
+	bool isDamage;
+
+
+private:
+	// 当たり判定関連
+	void PlayerHitBoss();
+
+private:
+	void DamageUpdate();
 
 public:
 	Boss();
@@ -38,6 +47,7 @@ public:
 
 public:
 	// セッター
+	inline void SetPlayerPtr(Player* playerPtr) { this->playerPtr = playerPtr; }
 	inline void SetRotation(const Vec3& rot) { bossObj->rotation = rot; }
 };
 

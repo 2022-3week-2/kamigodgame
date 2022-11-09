@@ -18,6 +18,10 @@ public:
 	void DrawSprite() override;
 
 private:
+	void GenerateObj();
+	void SetAllObjPtr();
+
+private:
 	Object3D obj;
 	Model mCube;
 

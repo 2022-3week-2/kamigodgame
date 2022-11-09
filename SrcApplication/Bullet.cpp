@@ -3,11 +3,12 @@
 
 Bullet::Bullet(const Vec3 pos, const Vec3 vec, Model* bulletModel) :
 	bulletObj(std::move(std::make_unique<Object3D>())), speed(1),
-	isActive(true), activeTimer(0), activeMaxTimer(30)
+	isActive(true), activeTimer(0), activeMaxTimer(40)
 {
 	bulletObj->position = pos;
 	bulletObj->model = bulletModel;
 	this->vec = vec;
+	collisionRadius = bulletObj->scale.x;
 }
 
 void Bullet::Update()

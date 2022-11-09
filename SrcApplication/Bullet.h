@@ -9,6 +9,7 @@ private:
 	std::unique_ptr<Object3D> bulletObj;
 	Vec3 vec;
 	float speed;
+	float collisionRadius;
 
 private:
 	// 生存関連
@@ -24,6 +25,8 @@ public:
 public:
 	// ゲッター
 	inline bool GetisActive() { return isActive; }
+	inline Vec3 GetPosition() { return bulletObj->position; }
+	inline float GetCollisionRadius() { return collisionRadius; }
 
 public:
 	// セッター

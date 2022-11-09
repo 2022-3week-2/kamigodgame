@@ -7,6 +7,8 @@
 #include <memory>
 #include <list>
 
+class Boss;
+
 class Player
 {
 private:
@@ -54,6 +56,7 @@ public:
 	// ゲッター
 	inline Vec3 GetPosition() { return playerObj->position; }
 	inline Vec3 GetRotation() { return playerObj->rotation; }
+	inline std::list<std::unique_ptr<Bullet>>* GetBullets() { return &bullets; }
 
 public:
 	// セッター

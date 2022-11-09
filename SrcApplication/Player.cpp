@@ -82,12 +82,12 @@ void Player::JumpUpdate()
 	{
 		if (jumpCount < jumpMaxCount)
 		{
-			gravity = 0.75;
+			gravity = 0.75f;
 			jumpCount++;
 		}
 	}
 
-	gravity -= 0.05;
+	gravity -= 0.05f;
 	if (gravity <= -1)
 	{
 		gravity = -1;
@@ -100,9 +100,9 @@ void Player::JumpUpdate()
 		(playerObj->position.z - fieldPtr->GetPosition().z) <=
 		(playerObj->scale.x + 30) * (playerObj->scale.x + 30))
 	{
-		gravity = 0;
 		if (playerObj->position.y < 0)
 		{
+			gravity = 0;
 			playerObj->position.y = 0;
 			jumpCount = 0;
 		}
@@ -125,8 +125,6 @@ void Player::ShotUpdate()
 		shotTimer++;
 		if (shotTimer >= shotMaxTimer)
 		{
-			//Vec3 frontVec = (Vec3)bossPtr->GetPosition() - playerObj->position;
-
 			bullets.emplace_back(std::move(std::make_unique<Bullet>(
 				playerObj->position, frontVec.Norm(), bulletModel.get())));
 			shotTimer = 0;

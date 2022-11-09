@@ -66,6 +66,24 @@ Vec3& Vec3::operator-=(const Vec3& v2)
 	return *this;
 }
 
+Vec3& Vec3::operator+=(float add)
+{
+	this->x += add;
+	this->y += add;
+	this->z += add;
+
+	return *this;
+}
+
+Vec3& Vec3::operator-=(float sub)
+{
+	this->x -= sub;
+	this->y -= sub;
+	this->z -= sub;
+
+	return *this;
+}
+
 Vec3& Vec3::operator*=(float mul)
 {
 	this->x *= mul;
@@ -162,7 +180,7 @@ Vec3 Vec3::Lerp(const Vec3& start, const Vec3& end, const float t)
 
 Vec3 Vec3::Spline(const std::vector<Vec3>& points, float t)
 {
-	if (points.size() <= 2) { return Vec3(0,0,0); }
+	if (points.size() <= 2) { return Vec3(0, 0, 0); }
 	t = Util::Clamp(t, 0.f, 1.f);
 
 	float perSegment = 1.f / (points.size() - 1);
@@ -200,12 +218,12 @@ float Vec3::GetSquaredLength() const
 
 float Vec3::Dot(const Vec3& v2) const
 {
-	return x*v2.x + y*v2.y + z*v2.z;
+	return x * v2.x + y * v2.y + z * v2.z;
 }
 
 Vec3 Vec3::Cross(const Vec3& v2) const
 {
-	return Vec3(y*v2.z - z*v2.y, z*v2.x - x*v2.z, x*v2.y - y*v2.x);
+	return Vec3(y * v2.z - z * v2.y, z * v2.x - x * v2.z, x * v2.y - y * v2.x);
 }
 
 Vec3::operator Float3() const

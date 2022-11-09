@@ -12,6 +12,7 @@ private:
 	{
 		Start,
 		Rush1,
+		Move,
 		Rush2,
 		End,
 	};
@@ -19,9 +20,6 @@ private:
 private:
 	BezierCurve noneBezierIn;
 	BezierCurve noneBezierOut;
-
-	Easing upOutEase;
-	Easing downInEase;
 
 	int stayRushTimer;		// ラッシュする前のクールタイム
 	int stayRushMaxTimer;	// マックスクールタイム
@@ -31,9 +29,10 @@ private:
 	float rushSpeed;
 
 private:
-	void StartInit();
+	void BezierInit(const Vec3& endPos);
 	void StartUpdate();
 	void Rush1Update();
+	void MoveUpdate();
 	void Rush2Update();
 	void EndUpdate();
 

@@ -30,6 +30,10 @@ public:
 
 	Vec3& operator -=(const Vec3& v2);
 
+	Vec3& operator +=(float add);
+
+	Vec3& operator -=(float sub);
+
 	Vec3& operator *=(float mul);
 
 	Vec3& operator /=(float div);

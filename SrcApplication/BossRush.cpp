@@ -10,7 +10,7 @@ void BossRush::Init()
 	stayRushTimer = 0;		// ラッシュする前のクールタイム
 	stayRushMaxTimer = 60;	// マックスクールタイム
 
-	StartInit();
+	BezierInit({ 0,5,30 });
 }
 void BossRush::Update()
 {
@@ -20,6 +20,7 @@ void BossRush::Update()
 		// 登録
 		&BossRush::StartUpdate,
 		&BossRush::Rush1Update,
+		&BossRush::MoveUpdate,
 		&BossRush::Rush2Update,
 		&BossRush::EndUpdate,
 	};
@@ -31,7 +32,7 @@ void BossRush::DrawModel()
 {
 }
 
-void BossRush::StartInit()
+void BossRush::BezierInit(const Vec3& endPos)
 {
 	const int halfTimer = 60;
 	const int powNum = 3;
@@ -56,7 +57,7 @@ void BossRush::StartInit()
 
 	noneBezierOut.AddPoint(centerPos);
 	noneBezierOut.AddPoint(centerPos / 2 + centerPos);
-	noneBezierOut.AddPoint({ 0,5,30 });
+	noneBezierOut.AddPoint(endPos);
 }
 void BossRush::StartUpdate()
 {
@@ -75,6 +76,10 @@ void BossRush::StartUpdate()
 
 	if (noneBezierOut.GetisEnd() == true)
 	{
+		noneBezierIn.ReSet();
+		noneBezierOut.ReSet();
+		noneBezierIn.ClearPoints();
+		noneBezierOut.ClearPoints();
 		step = Rush1;
 	}
 }
@@ -85,16 +90,40 @@ void BossRush::Rush1Update()
 	{
 		stayRushTimer = stayRushMaxTimer;
 
-		const Vec3 targetPos = { 0,5,-40 };
+		const Vec3 targetPos = { 0,5,-30 };
 		Vec3 vec = targetPos - bossPtr->GetBossObj()->position;
 		bossPtr->GetBossObj()->position += vec.Norm() * rushSpeed;
 
 		if (vec.GetLength() <= 0.5f)
 		{
-			bossPtr->GetBossObj()->position = { 50,5,0 };
+			BezierInit({ 30,5,0 });
 			stayRushTimer = 0;
-			step = Rush2;
+			step = Move;
 		}
+	}
+}
+void BossRush::MoveUpdate()
+{
+	if (noneBezierIn.GetisEnd() == false)
+	{
+		noneBezierIn.Update();
+		bossPtr->GetBossObj()->position =
+			noneBezierIn.InterPolation(BezierCurve::EaseIn);
+	}
+	else
+	{
+		noneBezierOut.Update();
+		bossPtr->GetBossObj()->position =
+			noneBezierOut.InterPolation(BezierCurve::EaseOut);
+	}
+
+	if (noneBezierOut.GetisEnd() == true)
+	{
+		noneBezierIn.ReSet();
+		noneBezierOut.ReSet();
+		noneBezierIn.ClearPoints();
+		noneBezierOut.ClearPoints();
+		step = Rush2;
 	}
 }
 void BossRush::Rush2Update()

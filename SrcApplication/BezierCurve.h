@@ -33,6 +33,7 @@ public:
 	inline bool GetisEnd() { return isEnd; }
 	inline void SetEaseTime(const float& easeTime) { ease.SetEaseTimer(easeTime); }
 	inline void SetEasePowNum(const float& pownum) { ease.SetPowNum(pownum); }
+	inline void ClearPoints() { points.clear(); }
 
 private:
 	std::vector<Vec3> RecursiveLerp(const std::vector<Vec3>& points, const int& type);

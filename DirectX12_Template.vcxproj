@@ -161,6 +161,7 @@
     <ClCompile Include="SrcApplication\BossRockFall.cpp" />
     <ClCompile Include="SrcApplication\BossRush.cpp" />
     <ClCompile Include="SrcApplication\Bullet.cpp" />
+    <ClCompile Include="SrcApplication\Collision.cpp" />
     <ClCompile Include="SrcApplication\Field.cpp" />
     <ClCompile Include="SrcApplication\Player.cpp" />
     <ClCompile Include="SrcApplication\Random.cpp" />
@@ -216,6 +217,7 @@
     <ClInclude Include="SrcApplication\BossRockFall.h" />
     <ClInclude Include="SrcApplication\BossRush.h" />
     <ClInclude Include="SrcApplication\Bullet.h" />
+    <ClInclude Include="SrcApplication\Collision.h" />
     <ClInclude Include="SrcApplication\Field.h" />
     <ClInclude Include="SrcApplication\IBossMotion.h" />
     <ClInclude Include="SrcApplication\Player.h" />
