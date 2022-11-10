@@ -70,6 +70,13 @@ void Player::MoveUpdate()
 		playerObj->position.z -= speed;
 	}
 
+	Vec3 dis = playerObj->position;
+	const float lenght = 29;
+	if (dis.GetLength() >= lenght)
+	{
+		playerObj->position = dis.Norm() * lenght;
+	}
+
 	if (Pad::GetLStick().x >= offset || Pad::GetLStick().x <= -offset ||
 		Pad::GetLStick().y >= offset || Pad::GetLStick().y <= -offset)
 	{
@@ -111,7 +118,14 @@ void Player::JumpUpdate()
 	}
 	playerObj->position.y += gravity;
 
-	if ((playerObj->position.x - fieldPtr->GetPosition().x) *
+	if (playerObj->position.y < 0)
+	{
+		gravity = 0;
+		playerObj->position.y = 0;
+		jumpCount = 0;
+	}
+
+	/*if ((playerObj->position.x - fieldPtr->GetPosition().x) *
 		(playerObj->position.x - fieldPtr->GetPosition().x) +
 		(playerObj->position.z - fieldPtr->GetPosition().z) *
 		(playerObj->position.z - fieldPtr->GetPosition().z) <=
@@ -131,7 +145,7 @@ void Player::JumpUpdate()
 			playerObj->position = { 0,0,-10 };
 			jumpCount = 0;
 		}
-	}
+	}*/
 
 }
 void Player::ShotUpdate()
