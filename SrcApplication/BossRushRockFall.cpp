@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "BossRush.h"
+#include "BossRushRockFall.h"
 
-void BossRush::Init()
+void BossRushRockFall::Init()
 {
 	step = Start;
 	moveSpeed = 2;
@@ -10,29 +10,40 @@ void BossRush::Init()
 	stayRushTimer = 0;		// ラッシュする前のクールタイム
 	stayRushMaxTimer = 60;	// マックスクールタイム
 
-	BezierInit({ bossPtr->GetPlayerPtr()->GetPosition().x,5,30 });
+	angleVec = bossPtr->GetPlayerPtr()->GetPosition() - Vec3(0, 0, 0);
+
+	Vec3 targetPos = angleVec.Norm() * 30;
+	targetPos.y = 5;
+
+	BezierInit(targetPos);
 }
-void BossRush::Update()
+void BossRushRockFall::Update()
 {
 	// 関数ポインタ
-	void (BossRush:: * pFunc[])() =
+	void (BossRushRockFall:: * pFunc[])() =
 	{
 		// 登録
-		&BossRush::StartUpdate,
-		&BossRush::Rush1Update,
-		&BossRush::MoveUpdate,
-		&BossRush::Rush2Update,
-		&BossRush::EndUpdate,
+		&BossRushRockFall::StartUpdate,
+		&BossRushRockFall::Rush1Update,
+		&BossRushRockFall::MoveUpdate,
+		&BossRushRockFall::Rush2Update,
+		&BossRushRockFall::EndUpdate,
 	};
+
+	RockFallUpdate();
 
 	// 実行
 	(this->*pFunc[step])();
 }
-void BossRush::DrawModel()
+void BossRushRockFall::DrawModel()
 {
+	for (const auto& currentRock : rocks)
+	{
+		currentRock->DrawModel();
+	}
 }
 
-void BossRush::BezierInit(const Vec3& endPos)
+void BossRushRockFall::BezierInit(const Vec3& endPos)
 {
 	const int halfTimer = 60;
 	const int powNum = 3;
@@ -60,7 +71,7 @@ void BossRush::BezierInit(const Vec3& endPos)
 	noneBezierOut.AddPoint(endPos);
 	this->endPos = endPos;
 }
-void BossRush::StartUpdate()
+void BossRushRockFall::StartUpdate()
 {
 	if (noneBezierIn.GetisEnd() == false)
 	{
@@ -84,14 +95,15 @@ void BossRush::StartUpdate()
 		step = Rush1;
 	}
 }
-void BossRush::Rush1Update()
+void BossRushRockFall::Rush1Update()
 {
 	stayRushTimer++;
 	if (stayRushTimer >= stayRushMaxTimer)
 	{
 		stayRushTimer = stayRushMaxTimer;
 
-		const Vec3 targetPos = { endPos.x,5,-30 };
+		//const Vec3 targetPos = { endPos.x,5,-30 };
+		const Vec3 targetPos = { -endPos.x,5,-endPos.z };
 		Vec3 vec = targetPos - bossPtr->GetBossObj()->position;
 		//Vec3 vec = { targetPos.x,0,-targetPos.z };
 		Vec3 lenght = targetPos - bossPtr->GetBossObj()->position;
@@ -99,14 +111,17 @@ void BossRush::Rush1Update()
 
 		if (lenght.GetLength() <= 0.5f)
 		{
-			BezierInit({ 30,5, bossPtr->GetPlayerPtr()->GetPosition().z });
+			BezierInit({ endPos.Cross({ 0,1,0 }).x,5,endPos.Cross({ 0,1,0 }).z });
 			stayRushTimer = 0;
+			GeneRockUpdate();
 			step = Move;
 		}
 	}
 }
-void BossRush::MoveUpdate()
+void BossRushRockFall::MoveUpdate()
 {
+	rockFallTimer++;
+
 	if (noneBezierIn.GetisEnd() == false)
 	{
 		noneBezierIn.Update();
@@ -129,14 +144,14 @@ void BossRush::MoveUpdate()
 		step = Rush2;
 	}
 }
-void BossRush::Rush2Update()
+void BossRushRockFall::Rush2Update()
 {
 	stayRushTimer++;
 	if (stayRushTimer >= stayRushMaxTimer)
 	{
 		stayRushTimer = stayRushMaxTimer;
 
-		const Vec3 targetPos = { -30,5,endPos.z };
+		const Vec3 targetPos = { -endPos.x,5,-endPos.z };
 		Vec3 vec = targetPos - bossPtr->GetBossObj()->position;
 		//Vec3 vec = { targetPos.x,0,-targetPos.z };
 		Vec3 lenght = vec;
@@ -150,7 +165,51 @@ void BossRush::Rush2Update()
 		}
 	}
 }
-void BossRush::EndUpdate()
+void BossRushRockFall::EndUpdate()
 {
 	isEnd = true;
+}
+
+void BossRushRockFall::GeneRockUpdate()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		int angle = 45;
+		int lenght = 20;
+		float offsetRadian = atan2f(endPos.z, endPos.x);
+		float radian = AngleToRadian(angle + i * 90) + offsetRadian;
+
+		Vec3 pos =
+		{
+			cosf(radian) * lenght,
+			50.0f,
+			sinf(radian) * lenght,
+		};
+
+		rocks.emplace_back(std::move(std::make_unique<Rock>(
+			pos, bossPtr->GetRockModel(), bossPtr->GetRockShadowModel())));
+	}
+}
+void BossRushRockFall::RockFallUpdate()
+{
+	if (rockFallTimer >= rockFallMaxTimer)
+	{
+		for (const auto& currentRock : rocks)
+		{
+			currentRock->SetisFall(true);
+		}
+
+		rocks.remove_if(
+			[](std::unique_ptr<Rock>& rock)
+			{
+				return !rock->GetisActive();
+			});
+
+		rockFallTimer = rockFallMaxTimer;
+	}
+
+	for (const auto& currentRock : rocks)
+	{
+		currentRock->Update();
+	}
 }

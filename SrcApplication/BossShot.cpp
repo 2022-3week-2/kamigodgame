@@ -5,7 +5,7 @@
 void BossShot::Init()
 {
 	shotCount = 0;
-	shotMaxCount = 9;
+	shotMaxCount = 8;
 
 	shotTimer = 0;
 	shotMaxTimer = 15;
@@ -48,21 +48,33 @@ void BossShot::DrawModel()
 
 void BossShot::StartUpdate()
 {
-	switch (Random::Range(1, 3))
-		//switch (1)
+	const int index = Random::Range(0, 8);
+	const int offset = index * 45;
+	const int lenght = 30;
+	switch (Random::Range(0, 1))
 	{
+	case 0:
+		for (int i = 0; i < shotMaxCount; i++)
+		{
+			targetPoses.emplace_back(
+				cosf(AngleToRadian(offset + i * 135)) * lenght,
+				5,
+				sinf(AngleToRadian(offset + i * 135)) * lenght);
+		}
+		break;
 	case 1:
-		TargetPosPattern1();
-		break;
-	case 2:
-		TargetPosPattern2();
-		break;
-	case 3:
-		TargetPosPattern3();
+		for (int i = 0; i < shotMaxCount; i++)
+		{
+			targetPoses.emplace_back(
+				cosf(AngleToRadian(offset + i * -135)) * lenght,
+				5,
+				sinf(AngleToRadian(offset + i * -135)) * lenght);
+		}
 		break;
 	default:
 		break;
 	}
+
 	step = Move;
 }
 void BossShot::MoveUpdate()
@@ -136,42 +148,4 @@ void BossShot::EndUpdate()
 	{
 		isEnd = true;
 	}
-}
-
-void BossShot::TargetPosPattern1()
-{
-	const int lenght = 30;
-	for (int i = 0; i < shotMaxCount; i++)
-	{
-		targetPoses.emplace_back(
-			cosf(AngleToRadian(i * (360 / shotMaxCount))) * lenght,
-			5,
-			sinf(AngleToRadian(i * (360 / shotMaxCount))) * lenght);
-	}
-}
-void BossShot::TargetPosPattern2()
-{
-	const int lenght = 30;
-	targetPoses.emplace_back(cosf(AngleToRadian(40)) * lenght, 5, sinf(AngleToRadian(40)) * lenght);
-	targetPoses.emplace_back(cosf(AngleToRadian(120)) * lenght, 5, sinf(AngleToRadian(120)) * lenght);
-	targetPoses.emplace_back(cosf(AngleToRadian(160)) * lenght, 5, sinf(AngleToRadian(160)) * lenght);
-	targetPoses.emplace_back(cosf(AngleToRadian(80)) * lenght, 5, sinf(AngleToRadian(80)) * lenght);
-	targetPoses.emplace_back(cosf(AngleToRadian(200)) * lenght, 5, sinf(AngleToRadian(200)) * lenght);
-	targetPoses.emplace_back(cosf(AngleToRadian(320)) * lenght, 5, sinf(AngleToRadian(320)) * lenght);
-	targetPoses.emplace_back(cosf(AngleToRadian(0)) * lenght, 5, sinf(AngleToRadian(0)) * lenght);
-	targetPoses.emplace_back(cosf(AngleToRadian(280)) * lenght, 5, sinf(AngleToRadian(280)) * lenght);
-	targetPoses.emplace_back(cosf(AngleToRadian(240)) * lenght, 5, sinf(AngleToRadian(240)) * lenght);
-}
-void BossShot::TargetPosPattern3()
-{
-	const int lenght = 30;
-	targetPoses.emplace_back(cosf(AngleToRadian(40)) * lenght, 5, sinf(AngleToRadian(40)) * lenght);
-	targetPoses.emplace_back(cosf(AngleToRadian(120)) * lenght, 5, sinf(AngleToRadian(120)) * lenght);
-	targetPoses.emplace_back(cosf(AngleToRadian(0)) * lenght, 5, sinf(AngleToRadian(0)) * lenght);
-	targetPoses.emplace_back(cosf(AngleToRadian(200)) * lenght, 5, sinf(AngleToRadian(200)) * lenght);
-	targetPoses.emplace_back(cosf(AngleToRadian(160)) * lenght, 5, sinf(AngleToRadian(160)) * lenght);
-	targetPoses.emplace_back(cosf(AngleToRadian(240)) * lenght, 5, sinf(AngleToRadian(240)) * lenght);
-	targetPoses.emplace_back(cosf(AngleToRadian(80)) * lenght, 5, sinf(AngleToRadian(80)) * lenght);
-	targetPoses.emplace_back(cosf(AngleToRadian(320)) * lenght, 5, sinf(AngleToRadian(320)) * lenght);
-	targetPoses.emplace_back(cosf(AngleToRadian(280)) * lenght, 5, sinf(AngleToRadian(280)) * lenght);
 }

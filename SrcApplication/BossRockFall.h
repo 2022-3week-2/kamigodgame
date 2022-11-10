@@ -15,14 +15,7 @@ private:
 		End,
 	};
 
-	enum RockFallPattern
-	{
-		FourRock,
-	};
-
 private:
-	int step;
-
 	std::list<std::unique_ptr<Rock>> rocks;
 	int rockFallTimer;		// 落石するタイマー
 	int rockFallMaxTimer;	// マックスタイマー

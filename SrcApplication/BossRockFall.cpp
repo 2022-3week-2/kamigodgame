@@ -7,9 +7,9 @@ void BossRockFall::Init()
 	step = Start;
 	rocks.clear();
 	rockFallTimer = 0;
-	rockFallMaxTimer = 120;
+	rockFallMaxTimer = 60;
 	generateTimer = 0;
-	generateMaxTimer = 60;
+	generateMaxTimer = 30;
 }
 void BossRockFall::Update()
 {
@@ -39,9 +39,10 @@ void BossRockFall::StartUpdate()
 	const float moveSpeed = 0.5f;
 	const Vec3 targetPos = { 0,5,0 };
 	Vec3 vec = targetPos - bossPtr->GetBossObj()->position;
+	Vec3 lenght = targetPos - bossPtr->GetBossObj()->position;;
 	bossPtr->GetBossObj()->position += vec.Norm() * moveSpeed;
 
-	if (vec.GetLength() <= 0.5f)
+	if (lenght.GetLength() <= 1.f)
 	{
 		bossPtr->GetBossObj()->position = { 0,5,0 };
 		step = GeneRock;

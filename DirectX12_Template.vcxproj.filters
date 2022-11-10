@@ -285,6 +285,9 @@
     <ClCompile Include="SrcApplication\BossShot.cpp">
       <Filter>Application\ソースファイル\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="SrcApplication\BossRushRockFall.cpp">
+      <Filter>Application\ソースファイル\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SrcEngine\Others\Essentials.h">
@@ -456,6 +459,9 @@
       <Filter>Application\ヘッダーファイル</Filter>
     </ClInclude>
     <ClInclude Include="SrcApplication\BossShot.h">
+      <Filter>Application\ヘッダーファイル\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="SrcApplication\BossRushRockFall.h">
       <Filter>Application\ヘッダーファイル\Boss</Filter>
     </ClInclude>
   </ItemGroup>

@@ -160,6 +160,7 @@
     <ClCompile Include="SrcApplication\Boss.cpp" />
     <ClCompile Include="SrcApplication\BossRockFall.cpp" />
     <ClCompile Include="SrcApplication\BossRush.cpp" />
+    <ClCompile Include="SrcApplication\BossRushRockFall.cpp" />
     <ClCompile Include="SrcApplication\BossShot.cpp" />
     <ClCompile Include="SrcApplication\Bullet.cpp" />
     <ClCompile Include="SrcApplication\Collision.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="SrcApplication\Boss.h" />
     <ClInclude Include="SrcApplication\BossRockFall.h" />
     <ClInclude Include="SrcApplication\BossRush.h" />
+    <ClInclude Include="SrcApplication\BossRushRockFall.h" />
     <ClInclude Include="SrcApplication\BossShot.h" />
     <ClInclude Include="SrcApplication\Bullet.h" />
     <ClInclude Include="SrcApplication\Collision.h" />

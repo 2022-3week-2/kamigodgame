@@ -3,6 +3,7 @@
 #include "BossRush.h"
 #include "BossRockFall.h"
 #include "BossShot.h"
+#include "BossRushRockFall.h"
 #include "Random.h"
 #include "Collision.h"
 
@@ -30,7 +31,7 @@ void Boss::Init()
 	bossObj->scale = { 5,5,5 };
 
 	// モーション
-	bossMotion = std::move(std::make_unique<BossRockFall>());
+	bossMotion = std::move(std::make_unique<BossRush>());
 	bossMotion->SetBossPtr(this);
 	bossMotion->Init();
 
@@ -40,8 +41,8 @@ void Boss::Update()
 {
 	PlayerHitBoss();
 
-	//bossForm = 3;
-	FormUpdate();	// 形態の処理
+	bossForm = 2;
+	//FormUpdate();	// 形態の処理
 	MotionUpdate();	// モーションの処理
 	DamageUpdate();	// ダメージの処理
 
@@ -100,10 +101,18 @@ void Boss::MotionUpdate()
 	{
 		std::unique_ptr<IBossMotion> nextMotion;
 		switch (Random::Range(0, 2))
-			//switch (1)
+		//switch (0)
 		{
 		case 0:
-			nextMotion = std::make_unique<BossRush>();
+			if (bossForm == 1)
+			{
+				nextMotion = std::make_unique<BossRush>();
+			}
+			else
+			{
+				nextMotion = std::make_unique<BossRushRockFall>();
+			}
+
 			break;
 
 		case 1:

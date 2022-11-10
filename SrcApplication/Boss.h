@@ -65,6 +65,7 @@ public:
 	inline Model* GetRockModel() { return rockModel.get(); }
 	inline Model* GetRockShadowModel() { return rockShadowModel.get(); }
 	inline Model* GetBulletModel() { return bulletModel.get(); }
+	inline Player* GetPlayerPtr() { return playerPtr; }
 	inline int GetBossForm() { return bossForm; }
 
 public:

@@ -68,8 +68,10 @@ void GameScene::Update()
 
 		camera.rotation = { AngleToRadian(65),0,0 };
 	}
-	//camera.position = { 0,0,-30 };
+	//camera.position = { 0,40,0 };
 	//camera.rotation = { AngleToRadian(90),0,0 };
+	//camera.position = { 0,0,-50 };
+	//camera.rotation = { 0,0,0 };
 	camera.UpdateMatrix();
 
 	obj.UpdateMatrix();
