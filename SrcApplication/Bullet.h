@@ -1,5 +1,5 @@
 #pragma once
-#include "SpMath.h"
+#include <SpMath.h>
 #include <Object3D.h>
 #include <memory>
 

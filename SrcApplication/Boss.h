@@ -17,6 +17,8 @@ private:
 	std::unique_ptr<Model> rockModel;
 	std::unique_ptr<Model> rockShadowModel;
 	std::unique_ptr<Model> bulletModel;
+	std::unique_ptr<Model> beamModel;
+	std::unique_ptr<Model> wavyModel;
 	std::unique_ptr<IBossMotion> bossMotion;
 	Player* playerPtr;
 
@@ -65,6 +67,8 @@ public:
 	inline Model* GetRockModel() { return rockModel.get(); }
 	inline Model* GetRockShadowModel() { return rockShadowModel.get(); }
 	inline Model* GetBulletModel() { return bulletModel.get(); }
+	inline Model* GetBeamModel() { return beamModel.get(); }
+	inline Model* GetWavyModel() { return wavyModel.get(); }
 	inline Player* GetPlayerPtr() { return playerPtr; }
 	inline int GetBossForm() { return bossForm; }
 

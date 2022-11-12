@@ -288,6 +288,12 @@
     <ClCompile Include="SrcApplication\BossRushRockFall.cpp">
       <Filter>Application\ソースファイル\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="SrcApplication\BossRushRockFallWavy.cpp">
+      <Filter>Application\ソースファイル\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="SrcApplication\Beam.cpp">
+      <Filter>Application\ソースファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SrcEngine\Others\Essentials.h">
@@ -463,6 +469,12 @@
     </ClInclude>
     <ClInclude Include="SrcApplication\BossRushRockFall.h">
       <Filter>Application\ヘッダーファイル\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="SrcApplication\BossRushRockFallWavy.h">
+      <Filter>Application\ヘッダーファイル\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="SrcApplication\Beam.h">
+      <Filter>Application\ヘッダーファイル</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

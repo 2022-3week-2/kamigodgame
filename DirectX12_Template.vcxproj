@@ -156,11 +156,13 @@
   <ItemGroup>
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SrcApplication\Beam.cpp" />
     <ClCompile Include="SrcApplication\BezierCurve.cpp" />
     <ClCompile Include="SrcApplication\Boss.cpp" />
     <ClCompile Include="SrcApplication\BossRockFall.cpp" />
     <ClCompile Include="SrcApplication\BossRush.cpp" />
     <ClCompile Include="SrcApplication\BossRushRockFall.cpp" />
+    <ClCompile Include="SrcApplication\BossRushRockFallWavy.cpp" />
     <ClCompile Include="SrcApplication\BossShot.cpp" />
     <ClCompile Include="SrcApplication\Bullet.cpp" />
     <ClCompile Include="SrcApplication\Collision.cpp" />
@@ -215,11 +217,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameScene.h" />
+    <ClInclude Include="SrcApplication\Beam.h" />
     <ClInclude Include="SrcApplication\BezierCurve.h" />
     <ClInclude Include="SrcApplication\Boss.h" />
     <ClInclude Include="SrcApplication\BossRockFall.h" />
     <ClInclude Include="SrcApplication\BossRush.h" />
     <ClInclude Include="SrcApplication\BossRushRockFall.h" />
+    <ClInclude Include="SrcApplication\BossRushRockFallWavy.h" />
     <ClInclude Include="SrcApplication\BossShot.h" />
     <ClInclude Include="SrcApplication\Bullet.h" />
     <ClInclude Include="SrcApplication\Collision.h" />

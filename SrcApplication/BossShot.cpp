@@ -25,24 +25,50 @@ void BossShot::Update()
 	// é¿çs
 	(this->*pFunc[step])();
 
-
-	for (const auto& current : bullets)
+	if (bossPtr->GetBossForm() < 3)
 	{
-		current->Update();
-	}
-
-	// çÌèú
-	bullets.remove_if(
-		[](std::unique_ptr<Bullet>& bullet)
+		for (const auto& current : bullets)
 		{
-			return !bullet->GetisActive();
-		});
+			current->Update();
+		}
+
+		// çÌèú
+		bullets.remove_if(
+			[](std::unique_ptr<Bullet>& bullet)
+			{
+				return !bullet->GetisActive();
+			});
+	}
+	else
+	{
+		for (const auto& current : beams)
+		{
+			current->Update();
+		}
+
+		// çÌèú
+		beams.remove_if(
+			[](std::unique_ptr<Beam>& beam)
+			{
+				return !beam->GetisActive();
+			});
+	}
 }
 void BossShot::DrawModel()
 {
-	for (const auto& current : bullets)
+	if (bossPtr->GetBossForm() < 3)
 	{
-		current->DrawModel();
+		for (const auto& current : bullets)
+		{
+			current->DrawModel();
+		}
+	}
+	else
+	{
+		for (const auto& current : beams)
+		{
+			current->DrawModel();
+		}
 	}
 }
 
@@ -117,14 +143,26 @@ void BossShot::ShotUpdate()
 			-targetPoses[shotCount].z,
 		};
 
-		bullets.emplace_back(
-			std::move(std::make_unique<Bullet>(
-				bossPtr->GetPosition(),
-				targetVec.Norm(),
-				60,
-				bossPtr->GetBulletModel()
-				)));
-		bullets.back()->SetScale({ 3,3,3 });
+		if (bossPtr->GetBossForm() < 3)
+		{
+			bullets.emplace_back(
+				std::move(std::make_unique<Bullet>(
+					bossPtr->GetPosition(),
+					targetVec.Norm(),
+					60,
+					bossPtr->GetBulletModel()
+					)));
+			bullets.back()->SetScale({ 3,3,3 });
+		}
+		else
+		{
+			beams.emplace_back(
+				std::move(std::make_unique<Beam>(
+					bossPtr->GetPosition(),
+					targetVec.Norm(),
+					bossPtr->GetBeamModel()
+					)));
+		}
 
 		shotCount++;
 
@@ -137,15 +175,22 @@ void BossShot::ShotUpdate()
 		{
 			step = End;
 		}
-
 	}
-
-
 }
 void BossShot::EndUpdate()
 {
-	if (bullets.size() == 0)
+	if (bossPtr->GetBossForm() < 3)
 	{
-		isEnd = true;
+		if (bullets.size() == 0)
+		{
+			isEnd = true;
+		}
+	}
+	else
+	{
+		if (beams.size() == 0)
+		{
+			isEnd = true;
+		}
 	}
 }

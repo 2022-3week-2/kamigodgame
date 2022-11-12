@@ -4,8 +4,10 @@
 #include "BossRockFall.h"
 #include "BossShot.h"
 #include "BossRushRockFall.h"
+#include "BossRushRockFallWavy.h"
 #include "Random.h"
 #include "Collision.h"
+#include <SpWindow.h>
 
 Boss::Boss() :
 	collisionRadius(5), addScaleFrame(0), bossForm(1), maxhp(100), hp(maxhp)
@@ -18,6 +20,9 @@ void Boss::Load()
 	rockModel.reset(new Model("sphere"));
 	rockShadowModel.reset(new Model("RockShadow"));
 	bulletModel.reset(new Model("sphere"));
+	beamModel.reset(new Model("Beam"));
+	//beamModel = std::move(std::make_unique<Model>("Beam"));
+	wavyModel.reset(new Model("Wavy1"));
 
 	gaugeSprite.reset(new Sprite("Resources/Sprite/BossSprite/bossGaugeFrame.png", "GeugeSprite"));
 	gaugeFrontColorSprite.reset(new Sprite("white"));
@@ -31,7 +36,7 @@ void Boss::Init()
 	bossObj->scale = { 5,5,5 };
 
 	// モーション
-	bossMotion = std::move(std::make_unique<BossRush>());
+	bossMotion = std::move(std::make_unique<BossShot>());
 	bossMotion->SetBossPtr(this);
 	bossMotion->Init();
 
@@ -41,7 +46,7 @@ void Boss::Update()
 {
 	PlayerHitBoss();
 
-	bossForm = 2;
+	bossForm = 3;
 	//FormUpdate();	// 形態の処理
 	MotionUpdate();	// モーションの処理
 	DamageUpdate();	// ダメージの処理
@@ -100,19 +105,22 @@ void Boss::MotionUpdate()
 	if (bossMotion->GetisEnd() == true)
 	{
 		std::unique_ptr<IBossMotion> nextMotion;
-		switch (Random::Range(0, 2))
-		//switch (0)
+		//switch (Random::Range(0, 2))
+		switch (2)
 		{
 		case 0:
 			if (bossForm == 1)
 			{
 				nextMotion = std::make_unique<BossRush>();
 			}
-			else
+			if (bossForm == 2)
 			{
 				nextMotion = std::make_unique<BossRushRockFall>();
 			}
-
+			if (bossForm == 3)
+			{
+				nextMotion = std::make_unique<BossRushRockFallWavy>();
+			}
 			break;
 
 		case 1:
@@ -199,6 +207,9 @@ void Boss::HPGaugeInit()
 }
 void Boss::HPGaugeUpdate()
 {
+	gaugeSprite->position = { (float)GetSpWindow()->width / 2,(float)GetSpWindow()->height - 100,0 };
+	gaugeSprite->scale = { 4,4,0 };
+
 	// 前の色の処理
 	float xAxisMaxScale = 126 * gaugeSprite->scale.x;
 	float hpExrate = (float)hp / maxhp;
@@ -222,6 +233,8 @@ void Boss::HPGaugeUpdate()
 		gaugeBackColorSprite->scale.x = gaugeFrontColorSprite->scale.x;
 		gaugeBackColorSprite->position.x = gaugeFrontColorSprite->position.x;
 	}
+
+	gaugeBackColorSprite->position.y = gaugeSprite->position.y;
 
 	gaugeSprite->UpdateMatrix();
 	gaugeFrontColorSprite->UpdateMatrix();
@@ -249,7 +262,7 @@ void Boss::PlayerHitBoss()
 			{
 				it->get()->SetisActive(false);
 				isDamage = true;
-				hp--;
+				hp -= 0.5f;
 			}
 		}
 	}

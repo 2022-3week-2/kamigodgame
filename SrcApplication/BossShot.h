@@ -1,6 +1,7 @@
 #pragma once
 #include "IBossMotion.h"
 #include "Bullet.h"
+#include "Beam.h"
 #include <memory>
 #include <list>
 #include <vector>
@@ -19,6 +20,7 @@ private:
 private:
 	int step;
 	std::list<std::unique_ptr<Bullet>> bullets;
+	std::list<std::unique_ptr<Beam>> beams;
 
 	std::vector<Vec3> targetPoses;
 
