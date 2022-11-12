@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "BossShot.h"
 #include "Random.h"
+#include "Collision.h"
 
 void BossShot::Init()
 {
@@ -27,6 +28,8 @@ void BossShot::Update()
 
 	if (bossPtr->GetBossForm() < 3)
 	{
+		BulletHitPlayer();
+
 		for (const auto& current : bullets)
 		{
 			current->Update();
@@ -41,6 +44,8 @@ void BossShot::Update()
 	}
 	else
 	{
+		BeamHitPlayer();
+
 		for (const auto& current : beams)
 		{
 			current->Update();
@@ -136,6 +141,13 @@ void BossShot::ShotUpdate()
 	shotTimer++;
 	if (shotTimer >= shotMaxTimer)
 	{
+		Vec3 currentPos =
+		{
+			bossPtr->GetPosition().x,
+			3,
+			bossPtr->GetPosition().z,
+		};
+
 		Vec3 targetVec =
 		{
 			-targetPoses[shotCount].x,
@@ -147,7 +159,7 @@ void BossShot::ShotUpdate()
 		{
 			bullets.emplace_back(
 				std::move(std::make_unique<Bullet>(
-					bossPtr->GetPosition(),
+					currentPos,
 					targetVec.Norm(),
 					60,
 					bossPtr->GetBulletModel()
@@ -193,4 +205,25 @@ void BossShot::EndUpdate()
 			isEnd = true;
 		}
 	}
+}
+
+void BossShot::BulletHitPlayer()
+{
+	for (const auto& current : bullets)
+	{
+		SphereCollider bulletCollider =
+		{
+			current->GetPosition(),
+			current->GetCollisionRadius()
+		};
+
+		if (Collision::SphereHitSphere(bulletCollider, bossPtr->GetPlayerPtr()->GetPlayerCollider()))
+		{
+			bossPtr->GetPlayerPtr()->SetisDamage(10);
+		}
+	}
+}
+void BossShot::BeamHitPlayer()
+{
+
 }

@@ -3,7 +3,8 @@
 #include "Bullet.h"
 #include "Boss.h"
 #include "Field.h"
-#include "Stone.h"
+#include "Gauge.h"
+#include <SphereCollider.h>
 #include <Object3D.h>
 #include <memory>
 #include <list>
@@ -16,10 +17,15 @@ private:
 	std::unique_ptr<Object3D> playerObj;
 	std::unique_ptr<Model> playerModel;
 	std::unique_ptr<Model> bulletModel;
-	std::unique_ptr<Stone> stone;
 
 	Boss* bossPtr;	// ボスのポインタ
 	Field* fieldPtr;	// フィールドのポインタ
+
+private:
+	// HP関連
+	std::unique_ptr<Gauge> hpGauge;
+	int hp;
+	int maxhp;
 
 private:
 	// 移動関連
@@ -43,15 +49,18 @@ private:
 	int shotMaxTimer;
 
 private:
-	// 石ころ関連
-	int stoneNumber;
-	int stoneMaxNumber;
+	// ダメージ関連
+	bool isDamage;
+	bool isDamageShain;
+	int damageShainTimer;
+	int damageShainMaxTimer;
+	SphereCollider playerCollider;
+
 
 private:
 	void MoveUpdate();	// 移動処理
 	void JumpUpdate();	// ジャンプ処理
 	void ShotUpdate();	// 弾を打つ処理
-	void StoneUpdate();	// 石を持つ処理
 	void DamageUpdate();	// ダメージを受ける処理
 
 public:
@@ -61,12 +70,24 @@ public:
 	void Init();
 	void Update();
 	void DrawModel();
+	void DrawFrontSprite();
+
+	inline void SetisDamage(const int damage)
+	{
+		if (isDamage == false)
+		{
+			isDamage = true;
+			isDamageShain = true;
+			hp -= damage;
+		}
+	}
 
 public:
 	// ゲッター
 	inline Vec3 GetPosition() { return playerObj->position; }
 	inline Vec3 GetRotation() { return playerObj->rotation; }
 	inline std::list<std::unique_ptr<Bullet>>* GetBullets() { return &bullets; }
+	inline SphereCollider GetPlayerCollider() { return playerCollider; }
 
 public:
 	// セッター

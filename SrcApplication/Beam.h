@@ -7,6 +7,7 @@ class Beam
 {
 private:
 	std::unique_ptr<Object3D> beamObj;
+	float beamThickness;
 
 private:
 	// 生存関連
@@ -22,5 +23,8 @@ public:
 public:
 	// ゲッター
 	inline bool GetisActive() { return isActive; }
+	inline Vec3 GetPosition() { return beamObj->position; }
+	inline Vec3 GetScale() { return beamObj->scale; }
+	inline bool GetBeamThickness() { return beamThickness; }
 };
 

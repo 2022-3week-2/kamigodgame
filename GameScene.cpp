@@ -20,6 +20,7 @@ void GameScene::Init()
 	sky.model = &mSky;
 
 	whiteTex = SpTextureManager::LoadTexture("Resources/white.png", "white");
+	SpTextureManager::LoadTexture("Resources/Sprite/BossSprite/bossGaugeFrame.png", "gaugeFrame");
 
 	GenerateObj();
 	SetAllObjPtr();
@@ -98,7 +99,8 @@ void GameScene::Draw3D()
 
 void GameScene::DrawSprite()
 {
-	boss->DrawSpriteFront();
+	boss->DrawFrontSprite();
+	player->DrawFrontSprite();
 
 	//TextDrawer::DrawString("hogeÇŸÇ∞Å[Å[", 100, 100, Align::TopLeft);
 

@@ -13,6 +13,8 @@ Rock::Rock(const Vec3 pos, Model* rockModel, Model* rockShadowModel) :
 	rockShadowObj->position = { pos.x,0,pos.z };
 	rockShadowObj->scale = { 5,1,5 };
 	rockShadowObj->model = rockShadowModel;
+
+	collisionRadius = 5;
 }
 
 void Rock::Update()

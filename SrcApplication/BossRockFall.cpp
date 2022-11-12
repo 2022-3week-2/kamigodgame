@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "BossRockFall.h"
 #include "Random.h"
+#include "Collision.h"
 
 void BossRockFall::Init()
 {
@@ -25,6 +26,8 @@ void BossRockFall::Update()
 
 	// ŽÀs
 	(this->*pFunc[step])();
+
+	RockHitPlayer();
 }
 void BossRockFall::DrawModel()
 {
@@ -172,5 +175,22 @@ void BossRockFall::SixteenRocksPattern(const float& angle)
 
 		rocks.emplace_back(std::move(std::make_unique<Rock>(
 			pos, bossPtr->GetRockModel(), bossPtr->GetRockShadowModel())));
+	}
+}
+
+void BossRockFall::RockHitPlayer()
+{
+	for (const auto& current : rocks)
+	{
+		SphereCollider rockCollider =
+		{
+			current->GetPosition(),
+			current->GetCollisionRadius()
+		};
+
+		if (Collision::SphereHitSphere(rockCollider, bossPtr->GetPlayerPtr()->GetPlayerCollider()))
+		{
+			bossPtr->GetPlayerPtr()->SetisDamage(10);
+		}
 	}
 }

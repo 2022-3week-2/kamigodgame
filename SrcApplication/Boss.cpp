@@ -23,10 +23,6 @@ void Boss::Load()
 	beamModel.reset(new Model("Beam"));
 	//beamModel = std::move(std::make_unique<Model>("Beam"));
 	wavyModel.reset(new Model("Wavy1"));
-
-	gaugeSprite.reset(new Sprite("Resources/Sprite/BossSprite/bossGaugeFrame.png", "GeugeSprite"));
-	gaugeFrontColorSprite.reset(new Sprite("white"));
-	gaugeBackColorSprite.reset(new Sprite("white"));
 }
 void Boss::Init()
 {
@@ -44,10 +40,15 @@ void Boss::Init()
 }
 void Boss::Update()
 {
+	bossCollider =
+	{
+		bossObj->position,collisionRadius
+	};
 	PlayerHitBoss();
+	BossHitPlayer();
 
-	bossForm = 3;
-	//FormUpdate();	// 形態の処理
+	//bossForm = 3;
+	FormUpdate();	// 形態の処理
 	MotionUpdate();	// モーションの処理
 	DamageUpdate();	// ダメージの処理
 
@@ -57,6 +58,7 @@ void Boss::Update()
 	{
 		hp = 0;
 	}
+
 	HPGaugeUpdate();	// HPゲージの処理
 }
 void Boss::DrawModel()
@@ -77,11 +79,9 @@ void Boss::DrawModel()
 
 	bossObj->Draw("white");
 }
-void Boss::DrawSpriteFront()
+void Boss::DrawFrontSprite()
 {
-	gaugeSprite->Draw();
-	gaugeBackColorSprite->Draw();
-	gaugeFrontColorSprite->Draw();
+	hpGauge->DrawFrontSprite();
 }
 
 void Boss::FormUpdate()
@@ -105,8 +105,8 @@ void Boss::MotionUpdate()
 	if (bossMotion->GetisEnd() == true)
 	{
 		std::unique_ptr<IBossMotion> nextMotion;
-		//switch (Random::Range(0, 2))
-		switch (2)
+		switch (Random::Range(0, 2))
+		//switch (2)
 		{
 		case 0:
 			if (bossForm == 1)
@@ -184,70 +184,22 @@ void Boss::DamageUpdate()
 
 void Boss::HPGaugeInit()
 {
-	// フレーム
-	gaugeSprite->position = { 1280 / 2,600,0 };
-	gaugeSprite->scale = { 4,4,0 };
-
-	// 前の色
-	float xAxisMaxScale = 126 * gaugeSprite->scale.x;
-	float hpExrate = (float)hp / maxhp;
-	gaugeFrontColorSprite->scale = Vec3(126 * hpExrate, 6, 0) * (Vec3)gaugeSprite->scale;
-	gaugeFrontColorSprite->position =
-	{
-		gaugeSprite->position.x - (xAxisMaxScale - gaugeFrontColorSprite->scale.x) / 2,
-		gaugeSprite->position.y,
-		gaugeSprite->position.z
-	};
-	gaugeFrontColorSprite->brightness = { 0.55f,0.1f,0.1f,1.f };
-
-	// 後ろの色
-	gaugeBackColorSprite->scale = gaugeFrontColorSprite->scale;
-	gaugeBackColorSprite->position = gaugeFrontColorSprite->position;
-	gaugeBackColorSprite->brightness = { 0.49f,0.19f,0.19f,1.f };
+	hpGauge = std::move(std::make_unique<Gauge>(
+		// 座標
+		Vec3((float)GetSpWindow()->width / 2, (float)GetSpWindow()->height - 100, 0),
+		// スケール
+		Vec3(4, 4, 0)));
 }
 void Boss::HPGaugeUpdate()
 {
-	gaugeSprite->position = { (float)GetSpWindow()->width / 2,(float)GetSpWindow()->height - 100,0 };
-	gaugeSprite->scale = { 4,4,0 };
-
-	// 前の色の処理
-	float xAxisMaxScale = 126 * gaugeSprite->scale.x;
-	float hpExrate = (float)hp / maxhp;
-	gaugeFrontColorSprite->scale = Vec3(126 * hpExrate, 6, 0) * (Vec3)gaugeSprite->scale;
-	gaugeFrontColorSprite->position =
-	{
-		gaugeSprite->position.x - (xAxisMaxScale - gaugeFrontColorSprite->scale.x) / 2,
-		gaugeSprite->position.y,
-		gaugeSprite->position.z
-	};
-
-	// 後ろの色の処理
-	if (gaugeBackColorSprite->scale.x >= gaugeFrontColorSprite->scale.x)
-	{
-		const float subParam = 0.5f;
-		gaugeBackColorSprite->scale.x -= subParam;
-		gaugeBackColorSprite->position.x -= subParam / 2;
-	}
-	if (gaugeBackColorSprite->scale.x <= gaugeFrontColorSprite->scale.x)
-	{
-		gaugeBackColorSprite->scale.x = gaugeFrontColorSprite->scale.x;
-		gaugeBackColorSprite->position.x = gaugeFrontColorSprite->position.x;
-	}
-
-	gaugeBackColorSprite->position.y = gaugeSprite->position.y;
-
-	gaugeSprite->UpdateMatrix();
-	gaugeFrontColorSprite->UpdateMatrix();
-	gaugeBackColorSprite->UpdateMatrix();
+	hpGauge->SetGaugeFrontColor({ 140,25,25 });
+	hpGauge->SetGaugeBackColor({ 124,48,48 });
+	hpGauge->SetGaugeExrate((float)hp / maxhp);
+	hpGauge->Update();
 }
 
 void Boss::PlayerHitBoss()
 {
-	SphereCollider bossCollider =
-	{
-		bossObj->position,collisionRadius
-	};
-
 	for (std::list<std::unique_ptr<Bullet>>::iterator it = playerPtr->GetBullets()->begin();
 		it != playerPtr->GetBullets()->end(); it++)
 	{
@@ -265,5 +217,12 @@ void Boss::PlayerHitBoss()
 				hp -= 0.5f;
 			}
 		}
+	}
+}
+void Boss::BossHitPlayer()
+{
+	if (Collision::SphereHitSphere(bossCollider, playerPtr->GetPlayerCollider()))
+	{
+		playerPtr->SetisDamage(5);
 	}
 }

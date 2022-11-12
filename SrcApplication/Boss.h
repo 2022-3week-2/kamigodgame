@@ -2,6 +2,8 @@
 #include "SpMath.h"
 #include "Player.h"
 #include "IBossMotion.h"
+#include "Gauge.h"
+#include <SphereCollider.h>
 #include <Object3D.h>
 #include <Sprite.h>
 #include <memory>
@@ -23,9 +25,7 @@ private:
 	Player* playerPtr;
 
 private:
-	std::unique_ptr<Sprite> gaugeSprite;
-	std::unique_ptr<Sprite> gaugeFrontColorSprite;
-	std::unique_ptr<Sprite> gaugeBackColorSprite;
+	std::unique_ptr<Gauge> hpGauge;
 
 private:
 	// パラメーター
@@ -41,8 +41,13 @@ private:
 	int hp;
 
 private:
+	SphereCollider bossCollider;
+
+private:
 	// 当たり判定関連
 	void PlayerHitBoss();
+	void BossHitPlayer();
+	void BossRockHitPlayer();
 
 private:
 	void FormUpdate();
@@ -57,7 +62,7 @@ public:
 	void Init();
 	void Update();
 	void DrawModel();
-	void DrawSpriteFront();
+	void DrawFrontSprite();
 
 public:
 	// ゲッター

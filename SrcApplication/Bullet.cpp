@@ -8,7 +8,6 @@ Bullet::Bullet(const Vec3 pos, const Vec3 vec, const int& activeMaxTimer, Model*
 	bulletObj->position = pos;
 	bulletObj->model = bulletModel;
 	this->vec = vec;
-	collisionRadius = bulletObj->scale.x;
 }
 
 void Bullet::Update()

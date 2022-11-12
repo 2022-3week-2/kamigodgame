@@ -35,6 +35,10 @@ private:
 	void MoveUpdate();
 	void ShotUpdate();
 	void EndUpdate();
+
+	void BulletHitPlayer();
+	void BeamHitPlayer();
+
 public:
 	void Init() override;
 	void Update() override;

@@ -8,7 +8,10 @@ using namespace Input;
 Player::Player() :
 	speed(0.3), gravity(0), jumpCount(0), jumpMaxCount(1),
 	moveAngle(0.01), moveLenght(10), collisionRadius(1),
-	shotTimer(5), shotMaxTimer(5), stoneNumber(0), stoneMaxNumber(10)
+	shotTimer(5), shotMaxTimer(5),
+	maxhp(100), hp(maxhp),
+	hpGauge(std::move(std::make_unique<Gauge>(Vec3(316, 64, 0), Vec3(4, 4, 4)))),
+	isDamage(false), isDamageShain(false), damageShainTimer(0), damageShainMaxTimer(120)
 {
 }
 Player::~Player()
@@ -25,15 +28,22 @@ void Player::Init()
 	playerObj = std::move(std::make_unique<Object3D>());
 	playerObj->model = playerModel.get();
 	playerObj->position.z = -10;
-
-	//stone = std::move(std::make_unique<Stone>(playerObj->position, fieldPtr->GetStoneModel(), 0));
+	hp = maxhp;
 }
 void Player::Update()
 {
 	MoveUpdate();	// ˆÚ“®ˆ—
 	JumpUpdate();	// ƒWƒƒƒ“ƒvˆ—
 	ShotUpdate();	// ’e‚ð‘Å‚Âˆ—
-	//StoneUpdate();
+	DamageUpdate();
+
+	hpGauge->SetGaugeFrontColor({ 140,25,25 });
+	hpGauge->SetGaugeBackColor({ 124,48,48 });
+	hpGauge->SetGaugeExrate((float)hp / maxhp);
+	hpGauge->Update();
+
+	playerCollider.pos = playerObj->position;
+	playerCollider.r = playerObj->scale.x;
 
 	playerObj->UpdateMatrix();
 }
@@ -46,7 +56,14 @@ void Player::DrawModel()
 
 	//stone->DrawModel();
 
-	playerObj->Draw();
+	if (damageShainTimer % 10 < 5)
+	{
+		playerObj->Draw();
+	}
+}
+void Player::DrawFrontSprite()
+{
+	hpGauge->DrawFrontSprite();
 }
 
 void Player::MoveUpdate()
@@ -175,56 +192,15 @@ void Player::ShotUpdate()
 			return !bullet->GetisActive();
 		});
 }
-void Player::StoneUpdate()
-{
-	if (stoneNumber < stoneMaxNumber)
-	{
-		SphereCollider playerCollider =
-		{
-			playerObj->position,collisionRadius
-		};
-
-		for (std::list<std::unique_ptr<Stone>>::iterator it = fieldPtr->GetStones()->begin();
-			it != fieldPtr->GetStones()->end(); it++)
-		{
-			SphereCollider stoneCollider =
-			{
-				it->get()->GetPosition(),it->get()->GetCollisionRadius()
-			};
-
-			if (Collision::SphereHitSphere(playerCollider, stoneCollider))
-			{
-				if (it->get()->GetisCarry() == false)
-				{
-					it->get()->SetisCarry(true);
-					stoneNumber++;
-				}
-			}
-		}
-	}
-
-	if (stoneNumber > 0)
-	{
-		if (stone->GetisShot() == false)
-		{
-			const float maxScale = 3;
-			const float scale = 1 + maxScale * stoneNumber / stoneMaxNumber;
-			stone->SetPosition(playerObj->position);
-			stone->SetScale({ scale ,scale ,scale });
-		}
-
-		if (Pad::Triggered(Button::Y))
-		{
-			stone->SetisShot(true);
-			stone->SetShotParam({ frontVec.Norm(),0.5f,0.5f });
-		}
-
-		stone->Update();
-		stone->ShotUpdate();
-	}
-
-}
 void Player::DamageUpdate()
 {
+	if (isDamageShain == false) return;
 
+	damageShainTimer++;
+	if (damageShainTimer >= damageShainMaxTimer)
+	{
+		damageShainTimer = 0;
+		isDamageShain = false;
+		isDamage = false;
+	}
 }

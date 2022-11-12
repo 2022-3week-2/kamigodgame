@@ -167,13 +167,13 @@
     <ClCompile Include="SrcApplication\Bullet.cpp" />
     <ClCompile Include="SrcApplication\Collision.cpp" />
     <ClCompile Include="SrcApplication\Field.cpp" />
+    <ClCompile Include="SrcApplication\Gauge.cpp" />
     <ClCompile Include="SrcApplication\Player.cpp" />
     <ClCompile Include="SrcApplication\Random.cpp" />
     <ClCompile Include="SrcApplication\Rock.cpp" />
     <ClCompile Include="SrcApplication\Scene\SceneManager.cpp" />
     <ClCompile Include="SrcApplication\Scene\SingleCamTestScene.cpp" />
     <ClCompile Include="SrcApplication\Scene\TestScene.cpp" />
-    <ClCompile Include="SrcApplication\Stone.cpp" />
     <ClCompile Include="SrcEngine\2D\Sprite.cpp" />
     <ClCompile Include="SrcEngine\3D\Billboard.cpp" />
     <ClCompile Include="SrcEngine\3D\Camera.cpp" />
@@ -228,6 +228,7 @@
     <ClInclude Include="SrcApplication\Bullet.h" />
     <ClInclude Include="SrcApplication\Collision.h" />
     <ClInclude Include="SrcApplication\Field.h" />
+    <ClInclude Include="SrcApplication\Gauge.h" />
     <ClInclude Include="SrcApplication\IBossMotion.h" />
     <ClInclude Include="SrcApplication\Player.h" />
     <ClInclude Include="SrcApplication\Random.h" />
@@ -235,7 +236,6 @@
     <ClInclude Include="SrcApplication\Scene\SceneManager.h" />
     <ClInclude Include="SrcApplication\Scene\SingleCamTestScene.h" />
     <ClInclude Include="SrcApplication\Scene\TestScene.h" />
-    <ClInclude Include="SrcApplication\Stone.h" />
     <ClInclude Include="SrcEngine\2D\Sprite.h" />
     <ClInclude Include="SrcEngine\3D\Billboard.h" />
     <ClInclude Include="SrcEngine\3D\Camera.h" />

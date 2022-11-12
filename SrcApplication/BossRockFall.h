@@ -33,6 +33,8 @@ private:
 	void EightRocksPattern(const float& angle);
 	void SixteenRocksPattern(const float& angle);
 
+	void RockHitPlayer();
+
 public:
 	void Init() override;
 	void Update() override;

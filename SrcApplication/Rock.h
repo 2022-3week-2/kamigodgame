@@ -14,6 +14,7 @@ private:
 	bool isActive;
 	float gravity;
 	bool isFall;
+	float collisionRadius;
 
 public:
 	Rock(const Vec3 pos, Model* rockModel, Model* rockShadowModel);
@@ -23,6 +24,8 @@ public:
 public:
 	// ゲッター
 	inline bool GetisActive() { return isActive; }
+	inline Vec3 GetPosition() { return rockObj->position; }
+	inline float GetCollisionRadius() { return collisionRadius; }
 
 public:
 	// セッター
