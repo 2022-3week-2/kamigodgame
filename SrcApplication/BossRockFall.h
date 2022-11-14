@@ -32,6 +32,8 @@ private:
 	void FourRocksPattern(const float& angle);
 	void EightRocksPattern(const float& angle);
 	void SixteenRocksPattern(const float& angle);
+	void Pattern();
+	void Pattern2();
 
 	void RockHitPlayer();
 

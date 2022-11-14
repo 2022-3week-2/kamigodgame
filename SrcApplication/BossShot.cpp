@@ -9,7 +9,7 @@ void BossShot::Init()
 	shotMaxCount = 8;
 
 	shotTimer = 0;
-	shotMaxTimer = 15;
+	shotMaxTimer = 30;
 }
 void BossShot::Update()
 {
@@ -148,7 +148,7 @@ void BossShot::ShotUpdate()
 			bossPtr->GetPosition().z,
 		};
 
-		Vec3 targetVec =
+		targetVec =
 		{
 			-targetPoses[shotCount].x,
 			0,
@@ -165,12 +165,13 @@ void BossShot::ShotUpdate()
 					bossPtr->GetBulletModel()
 					)));
 			bullets.back()->SetScale({ 3,3,3 });
+			bullets.back()->SetBulletDamage(5);
 		}
 		else
 		{
 			beams.emplace_back(
 				std::move(std::make_unique<Beam>(
-					bossPtr->GetPosition(),
+					currentPos,
 					targetVec.Norm(),
 					bossPtr->GetBeamModel()
 					)));
@@ -219,11 +220,51 @@ void BossShot::BulletHitPlayer()
 
 		if (Collision::SphereHitSphere(bulletCollider, bossPtr->GetPlayerPtr()->GetPlayerCollider()))
 		{
-			bossPtr->GetPlayerPtr()->SetisDamage(10);
+			bossPtr->GetPlayerPtr()->SetisDamage(current->GetBulletDamage());
 		}
 	}
 }
 void BossShot::BeamHitPlayer()
 {
+	for (const auto& current : beams)
+	{
+		Vec2 startPos =
+		{
+			current->GetPosition().x,
+			current->GetPosition().z,
+		};
 
+		Vec2 vec =
+		{
+			targetVec.Norm().x,
+			targetVec.Norm().z,
+		};
+
+		Vec2 targetPos =
+		{
+			bossPtr->GetPlayerPtr()->GetPosition().x,
+			bossPtr->GetPlayerPtr()->GetPosition().z,
+		};
+
+		Vec2 offset =
+		{
+			-targetVec.z,
+			targetVec.x,
+		};
+		Vec2 startPos1 = startPos + offset.Norm() * +2.5f;
+		Vec2 startPos2 = startPos + offset.Norm() * -2.5f;
+		Vec2 endPos1 = startPos1 + vec.Norm() * current->GetLenght();
+		Vec2 endPos2 = startPos2 + vec.Norm() * current->GetLenght();
+
+		float test1 = (endPos1.x - startPos1.x) * (targetPos.y - startPos1.y) -
+			(endPos1.y - startPos1.y) * (targetPos.x - startPos1.x);
+
+		float test2 = (endPos2.x - startPos2.x) * (targetPos.y - startPos2.y) -
+			(endPos2.y - startPos2.y) * (targetPos.x - startPos2.x);
+
+		if (test1 <= 0 && test2 >= 0)
+		{
+			bossPtr->GetPlayerPtr()->SetisDamage(5);
+		}
+	}
 }

@@ -41,12 +41,17 @@ private:
 	float gravity;	// 重力
 	int jumpCount;		// ジャンプした回数
 	int jumpMaxCount;	// マックス回数
+	float dushSpeed;
 
 private:
 	// ショット関連
 	std::list<std::unique_ptr<Bullet>> bullets;
 	int shotTimer;
 	int shotMaxTimer;
+
+	int pushTimer;
+	int pushMaxTimer;
+
 
 private:
 	// ダメージ関連

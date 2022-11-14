@@ -9,7 +9,6 @@ Beam::Beam(const Vec3 pos, const Vec3 vec, Model* bulletModel) :
 	beamObj->model = bulletModel;
 	beamObj->rotation.y = atan2f(vec.z, -vec.x) - AngleToRadian(90);
 	beamObj->scale = { 2.5f,2.5f,1 };
-	beamThickness = beamObj->scale.x;
 }
 
 void Beam::Update()

@@ -21,7 +21,6 @@ void Boss::Load()
 	rockShadowModel.reset(new Model("RockShadow"));
 	bulletModel.reset(new Model("sphere"));
 	beamModel.reset(new Model("Beam"));
-	//beamModel = std::move(std::make_unique<Model>("Beam"));
 	wavyModel.reset(new Model("Wavy1"));
 }
 void Boss::Init()
@@ -32,7 +31,7 @@ void Boss::Init()
 	bossObj->scale = { 5,5,5 };
 
 	// ÉÇÅ[ÉVÉáÉì
-	bossMotion = std::move(std::make_unique<BossShot>());
+	bossMotion = std::move(std::make_unique<BossRockFall>());
 	bossMotion->SetBossPtr(this);
 	bossMotion->Init();
 
@@ -106,7 +105,7 @@ void Boss::MotionUpdate()
 	{
 		std::unique_ptr<IBossMotion> nextMotion;
 		switch (Random::Range(0, 2))
-		//switch (2)
+			//switch (1)
 		{
 		case 0:
 			if (bossForm == 1)
@@ -214,7 +213,7 @@ void Boss::PlayerHitBoss()
 			{
 				it->get()->SetisActive(false);
 				isDamage = true;
-				hp -= 0.5f;
+				hp -= it->get()->GetBulletDamage();
 			}
 		}
 	}

@@ -23,6 +23,7 @@ private:
 	std::list<std::unique_ptr<Beam>> beams;
 
 	std::vector<Vec3> targetPoses;
+	Vec3 targetVec;
 
 	int shotCount;
 	int shotMaxCount;

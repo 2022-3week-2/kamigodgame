@@ -64,27 +64,27 @@ void BossRockFall::GeneRockUpdate()
 	generateTimer++;
 	if (generateTimer >= generateMaxTimer)
 	{
-		int randomAngle = Random::RangeF(1, 360);
+		//int randomAngle = Random::RangeF(1, 360);
 		//int randomAngle = 0;
-		switch (bossPtr->GetBossForm())
-		{
-		case 1:
-			FourRocksPattern(randomAngle);
-			break;
+		//switch (bossPtr->GetBossForm())
+		//{
+		//case 1:
+		//	FourRocksPattern(randomAngle);
+		//	break;
 
-		case 2:
-			EightRocksPattern(randomAngle);
-			break;
+		//case 2:
+		//	EightRocksPattern(randomAngle);
+		//	break;
 
-		case 3:
-			SixteenRocksPattern(randomAngle);
-			break;
+		//case 3:
+		//	SixteenRocksPattern(randomAngle);
+		//	break;
 
-		default:
-			break;
-		}
+		//default:
+		//	break;
+		//}
 
-
+		Pattern();
 		bossPtr->SetRotation(AngleToRadian({ 0,0,0 }));
 		generateTimer = 0;
 		step = RockFall;
@@ -175,6 +175,150 @@ void BossRockFall::SixteenRocksPattern(const float& angle)
 
 		rocks.emplace_back(std::move(std::make_unique<Rock>(
 			pos, bossPtr->GetRockModel(), bossPtr->GetRockShadowModel())));
+	}
+}
+void BossRockFall::Pattern()
+{
+	int generateCount = 0;
+
+	for (int y = 0; y < 6; y++)
+	{
+		for (int x = 0; x < 6; x++)
+		{
+			if (generateCount >= 31)
+			{
+				break;
+			}
+
+			const int percent = 75;
+			const int space = 10;
+			Vec3 pos =
+			{
+				-25 + (float)x * space,
+				50.0f,
+				25 - (float)y * space,
+			};
+
+			if (y == 0 || y == 5)
+			{
+				if (x == 0 || x == 1 || x == 4 || x == 5)
+				{
+					rocks.emplace_back(std::move(std::make_unique<Rock>(
+						pos, bossPtr->GetRockModel(), bossPtr->GetRockShadowModel())));
+					generateCount++;
+				}
+				else
+				{
+					if (Random::Bool(percent) == true)
+					{
+						rocks.emplace_back(std::move(std::make_unique<Rock>(
+							pos, bossPtr->GetRockModel(), bossPtr->GetRockShadowModel())));
+						generateCount++;
+					}
+				}
+			}
+			else if (y == 1 || y == 4)
+			{
+				if (x == 0 || x == 5)
+				{
+					rocks.emplace_back(std::move(std::make_unique<Rock>(
+						pos, bossPtr->GetRockModel(), bossPtr->GetRockShadowModel())));
+					generateCount++;
+				}
+				else
+				{
+					if (Random::Bool(percent) == true)
+					{
+						rocks.emplace_back(std::move(std::make_unique<Rock>(
+							pos, bossPtr->GetRockModel(), bossPtr->GetRockShadowModel())));
+						generateCount++;
+					}
+				}
+			}
+			else
+			{
+				if (Random::Bool(percent) == true)
+				{
+					rocks.emplace_back(std::move(std::make_unique<Rock>(
+						pos, bossPtr->GetRockModel(), bossPtr->GetRockShadowModel())));
+					generateCount++;
+				}
+			}
+		}
+	}
+}
+void BossRockFall::Pattern2()
+{
+	int generateCount = 0;
+
+	for (int y = 0; y < 6; y++)
+	{
+		for (int x = 0; x < 6; x++)
+		{
+			if (generateCount >= 27)
+			{
+				break;
+			}
+
+			const int percent = 75;
+			const int space = 10;
+			Vec3 pos =
+			{
+				-25 + (float)x * space,
+				50.0f,
+				25 - (float)y * space,
+			};
+
+			if (y == 0 || y == 5)
+			{
+				if (x == 1 || x == 4)
+				{
+					rocks.emplace_back(std::move(std::make_unique<Rock>(
+						pos, bossPtr->GetRockModel(), bossPtr->GetRockShadowModel())));
+					generateCount++;
+				}
+				else if (x == 0 || x == 5)
+				{
+					continue;
+				}
+				else
+				{
+					if (Random::Bool(percent) == true)
+					{
+						rocks.emplace_back(std::move(std::make_unique<Rock>(
+							pos, bossPtr->GetRockModel(), bossPtr->GetRockShadowModel())));
+						generateCount++;
+					}
+				}
+			}
+			else if (y == 1 || y == 4)
+			{
+				if (x == 0 || x == 5)
+				{
+					rocks.emplace_back(std::move(std::make_unique<Rock>(
+						pos, bossPtr->GetRockModel(), bossPtr->GetRockShadowModel())));
+					generateCount++;
+				}
+				else
+				{
+					if (Random::Bool(percent) == true)
+					{
+						rocks.emplace_back(std::move(std::make_unique<Rock>(
+							pos, bossPtr->GetRockModel(), bossPtr->GetRockShadowModel())));
+						generateCount++;
+					}
+				}
+			}
+			else
+			{
+				if (Random::Bool(percent) == true)
+				{
+					rocks.emplace_back(std::move(std::make_unique<Rock>(
+						pos, bossPtr->GetRockModel(), bossPtr->GetRockShadowModel())));
+					generateCount++;
+				}
+			}
+		}
 	}
 }
 
