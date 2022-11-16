@@ -9,6 +9,7 @@ class TestScene :
 {
 public:
     ~TestScene() {};
+    void LoadResources();
     void Init() override;
     void Update() override;
     void DrawBack() override;
@@ -27,19 +28,14 @@ private:
 
     Camera finalScene;
 
-    Model mSphere;
-    Model mCube;
+    Object3D ray;
+    BillboardY pane;
+    Billboard pane2;
 
     TextureKey whiteTex;
 
     Model sky;
 
     Object3D skysphere;
-
-    Object3D sphere;
-
-    Object3D points[5];
-
-    int timer = 0;
 };
 

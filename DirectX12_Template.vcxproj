@@ -154,8 +154,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="exc_unordered_map.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="RootSignatureManager.cpp" />
     <ClCompile Include="SrcApplication\Beam.cpp" />
     <ClCompile Include="SrcApplication\BezierCurve.cpp" />
     <ClCompile Include="SrcApplication\Boss.cpp" />
@@ -216,6 +217,8 @@
     <ClCompile Include="SrcEngine\Windows\SpWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="exc_unordered_map.h" />
+    <ClInclude Include="RootSignatureManager.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="SrcApplication\Beam.h" />
     <ClInclude Include="SrcApplication\BezierCurve.h" />
@@ -278,6 +281,12 @@
     <ClInclude Include="SrcEngine\Windows\SpWindow.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Resources\Shaders\BasicGS.hlsl">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Geometry</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Geometry</ShaderType>
+    </FxCompile>
     <FxCompile Include="Resources\Shaders\BasicPS.hlsl">
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
