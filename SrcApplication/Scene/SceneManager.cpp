@@ -6,12 +6,13 @@
 #include <future>
 #include <thread>
 #include <SoundManager.h>
+#include <GameScene.h>
 
 static future<void> ftr;
 
 void SceneManager::Init()
 {
-	InstantTransition<TestScene>();
+	InstantTransition<GameScene>();
 }
 
 void SceneManager::Update()

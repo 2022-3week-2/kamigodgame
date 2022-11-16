@@ -11,6 +11,7 @@ class GameScene :
 {
 public:
 	~GameScene() {};
+	void LoadResources() override;
 	void Init() override;
 	void Update() override;
 	void DrawBack() override;

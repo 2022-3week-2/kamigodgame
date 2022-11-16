@@ -1,27 +1,32 @@
-#include "stdafx.h"
 #include "GameScene.h"
+#include "stdafx.h"
 #include "SpMath.h"
 #include <TextDrawer.h>
 #include "Input.h"
 #include "SrcApplication/Random.h"
+#include <Model.h>
+
+void GameScene::LoadResources()
+{
+	SpTextureManager::LoadTexture("Resources/white.png", "white"); 
+	SpTextureManager::LoadTexture("Resources/Sprite/BossSprite/bossGaugeFrame.png", "gaugeFrame");
+
+	ModelManager::Register("cube", "Cube");
+	ModelManager::Register("skydome", "Skydome");
+}
 
 void GameScene::Init()
 {
 	Random::Init();	// ÉâÉìÉ_ÉÄÇÃèâä˙âª
-	SpTextureManager::Init();
 	camera.UseDefaultParams();
 	camera.renderWidth = 300;
 	camera.renderHeight = 600;
 
-	mCube = Model("cube");
-	mSky = Model("skydome");
+	obj.model = ModelManager::GetModel("Cube");
+	sky.model = ModelManager::GetModel("Skydome");
 
-	obj.model = &mCube;
-	sky.model = &mSky;
-
-	whiteTex = SpTextureManager::LoadTexture("Resources/white.png", "white");
-	SpTextureManager::LoadTexture("Resources/Sprite/BossSprite/bossGaugeFrame.png", "gaugeFrame");
-
+	whiteTex = "white";
+	
 	GenerateObj();
 	SetAllObjPtr();
 }

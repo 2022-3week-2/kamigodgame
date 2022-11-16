@@ -155,6 +155,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="exc_unordered_map.cpp" />
+    <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RootSignatureManager.cpp" />
     <ClCompile Include="SrcApplication\Beam.cpp" />
