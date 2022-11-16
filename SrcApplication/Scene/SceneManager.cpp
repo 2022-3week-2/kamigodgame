@@ -19,6 +19,9 @@ void SceneManager::Update()
 {
 	FrameRate::FrameStartWithWait();
 	UpdateLoadState();
+	if (transitionQueued) {
+		ConfirmTransition();
+	}
 
 	if (Input::Key::Triggered(DIK_T))
 	{
@@ -34,7 +37,7 @@ void SceneManager::Update()
 
 	if (Input::Key::Triggered(DIK_R))
 	{
-		InstantTransition<SingleCamTestScene>();
+		InstantTransition<GameScene>();
 	}
 
 	currentScene->Update();
@@ -57,21 +60,7 @@ void SceneManager::DrawBack()
 
 void SceneManager::Transition()
 {
-	if (loadState == LoadState::Loaded)
-	{
-		delete currentScene.release();
-		currentScene.swap(nextScene);
-
-		currentScene->Init();
-
-		loadState = LoadState::NotInProgress;
-
-		ftr = std::async(std::launch::async, [&] {
-				SpTextureManager::ReleasePerSceneTexture();
-				ModelManager::ReleasePerSceneModel();
-				SoundManager::ReleasePerSceneSounds();
-			});
-	}
+	transitionQueued = true;
 }
 
 SceneManager::LoadState SceneManager::GetLoadState()
@@ -118,7 +107,29 @@ void SceneManager::UpdateLoadState()
 	}
 }
 
+void SceneManager::ConfirmTransition()
+{
+	if (loadState == LoadState::Loaded)
+	{
+		delete currentScene.release();
+		currentScene.swap(nextScene);
+
+		currentScene->Init();
+
+		loadState = LoadState::NotInProgress;
+
+		ftr = std::async(std::launch::async, [&] {
+			SpTextureManager::ReleasePerSceneTexture();
+			ModelManager::ReleasePerSceneModel();
+			SoundManager::ReleasePerSceneSounds();
+			});
+	}
+
+	transitionQueued = false;
+}
+
 unique_ptr<IScene> SceneManager::currentScene = nullptr;
 unique_ptr<IScene> SceneManager::nextScene = nullptr;
 SceneManager::LoadState SceneManager::loadState = SceneManager::LoadState::NotInProgress;
 bool SceneManager::loadFinished = false;
+bool SceneManager::transitionQueued = false;

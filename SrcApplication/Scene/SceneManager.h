@@ -33,6 +33,8 @@ private:
 	//こっちはリアルタイム更新、次フレームの最初にリセット
 	static bool loadFinished;
 	static void UpdateLoadState();
+	static void ConfirmTransition();
+	static bool transitionQueued;
 
 //以下基本使用禁止
 public:
