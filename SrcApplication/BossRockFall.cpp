@@ -84,7 +84,8 @@ void BossRockFall::GeneRockUpdate()
 		//	break;
 		//}
 
-		Pattern();
+		//Pattern();
+		Pattern2();
 		bossPtr->SetRotation(AngleToRadian({ 0,0,0 }));
 		generateTimer = 0;
 		step = RockFall;

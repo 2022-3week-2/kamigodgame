@@ -10,6 +10,8 @@ void GameScene::LoadResources()
 {
 	SpTextureManager::LoadTexture("Resources/white.png", "white"); 
 	SpTextureManager::LoadTexture("Resources/Sprite/BossSprite/bossGaugeFrame.png", "gaugeFrame");
+	SpTextureManager::LoadTexture("Resources/Sprite/PlayerSprite/playerGaugeFrame.png", "playerGaugeFrame");
+	SpTextureManager::LoadTexture("Resources/Sprite/BossSprite/bossGaugeFrame.png", "bossGaugeFrame");
 
 	ModelManager::Register("cube", "Cube");
 	ModelManager::Register("skydome", "Skydome");

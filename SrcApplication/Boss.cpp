@@ -104,8 +104,8 @@ void Boss::MotionUpdate()
 	if (bossMotion->GetisEnd() == true)
 	{
 		std::unique_ptr<IBossMotion> nextMotion;
-		switch (Random::Range(0, 2))
-			//switch (1)
+		//switch (Random::Range(0, 2))
+		switch (1)
 		{
 		case 0:
 			if (bossForm == 1)
@@ -187,7 +187,9 @@ void Boss::HPGaugeInit()
 		// 座標
 		Vec3((float)GetSpWindow()->width / 2, (float)GetSpWindow()->height - 100, 0),
 		// スケール
-		Vec3(4, 4, 0)));
+		Vec3(4, 4, 0),
+		// テクスチャー
+		"bossGaugeFrame"));
 }
 void Boss::HPGaugeUpdate()
 {
