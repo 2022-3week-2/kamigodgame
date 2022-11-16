@@ -1,6 +1,7 @@
 #pragma once
 #include <Object3D.h>
 #include <Sprite.h>
+#include <Easing.h>
 
 class Gauge
 {
@@ -12,9 +13,18 @@ private:
 	Vec3 pos;
 	Vec3 scale;
 	float gaugeExrate;
+	float colorWidth;
+	float xAxisMaxScale;
+	Easing subEase;
+
+	bool isGetEaseTarget;
+	float easeTargetPos;
+	float easeTargetScale;
+	float easeStartPos;
+	float easeStartScale;
 
 public:
-	Gauge(const Vec3& pos, const Vec3& scale);
+	Gauge(const Vec3& pos, const Vec3& scale, const const TextureKey& frameTex);
 	void Update();
 	void DrawFrontSprite();
 

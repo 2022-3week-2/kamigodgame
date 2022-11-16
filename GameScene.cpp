@@ -20,7 +20,8 @@ void GameScene::Init()
 	sky.model = &mSky;
 
 	whiteTex = SpTextureManager::LoadTexture("Resources/white.png", "white");
-	SpTextureManager::LoadTexture("Resources/Sprite/BossSprite/bossGaugeFrame.png", "gaugeFrame");
+	SpTextureManager::LoadTexture("Resources/Sprite/PlayerSprite/playerGaugeFrame.png", "playerGaugeFrame");
+	SpTextureManager::LoadTexture("Resources/Sprite/BossSprite/bossGaugeFrame.png", "bossGaugeFrame");
 
 	GenerateObj();
 	SetAllObjPtr();

@@ -26,7 +26,7 @@ void Easing::ReSet()
 
 void Easing::Update()
 {
-	timer++;
+-	timer++;
 	if (timeRate >= 1)
 	{
 		isEnd = true;

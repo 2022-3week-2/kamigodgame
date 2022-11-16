@@ -10,7 +10,7 @@ Player::Player() :
 	moveAngle(0.01), moveLenght(10), collisionRadius(1),
 	shotTimer(5), shotMaxTimer(5), pushTimer(0), pushMaxTimer(60),
 	maxhp(100), hp(maxhp),
-	hpGauge(std::move(std::make_unique<Gauge>(Vec3(316, 64, 0), Vec3(4, 4, 4)))),
+	hpGauge(std::move(std::make_unique<Gauge>(Vec3(316, 64, 0), Vec3(4, 4, 4), "playerGaugeFrame"))),
 	isDamage(false), isDamageShain(false), damageShainTimer(0), damageShainMaxTimer(120)
 {
 }
@@ -37,8 +37,8 @@ void Player::Update()
 	ShotUpdate();	// ’e‚ð‘Å‚Âˆ—
 	DamageUpdate();
 
-	hpGauge->SetGaugeFrontColor({ 140,25,25 });
-	hpGauge->SetGaugeBackColor({ 124,48,48 });
+	hpGauge->SetGaugeFrontColor({ 10,160,30 });
+	hpGauge->SetGaugeBackColor({ 210,210,15 });
 	hpGauge->SetGaugeExrate((float)hp / maxhp);
 	hpGauge->Update();
 	if (hp <= 0)
